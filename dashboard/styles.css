@@ -78,3 +78,18 @@ header h2 {
   margin-bottom: 15px;
   color: #666;
 }
+
+.btn-image{
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 14px;
+  background:#1b4f72;
+  color:white;
+  text-decoration:none;
+  border-radius:6px;
+  font-size:14px;
+}
+
+.btn-image:hover{
+  background:#154360;
+}

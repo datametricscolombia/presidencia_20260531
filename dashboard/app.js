@@ -236,6 +236,20 @@ async function cargarMesa(url) {
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
+    if (data.url_image) {
+
+        const btn = document.createElement("a");
+
+        btn.href = data.url_image;
+        btn.target = "_blank";
+        btn.className = "btn-image";
+
+        btn.textContent = "Ver fotografía E-14";
+
+        totalDiv.appendChild(document.createElement("br"));
+        totalDiv.appendChild(btn);
+    }
+
     const breadcrumb = document.getElementById("breadcrumb");
 
     const path = url.replace(BASE_URL + "/", "").split("/");
