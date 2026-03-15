@@ -1,176 +1,298 @@
-const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531";
-let indexData = {};
-let cache = {};
-let chart = null;
-let currentData = null;
+const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
+const INDEX_FILE = `${BASE_URL}/index_hierarquico.json`;
 
-// ===============================
-// CACHE INTELIGENTE
-// ===============================
-async function fetchConCache(url) {
+let INDEX_DATA = {};
+const cache = {};
 
-    if (cache[url]) return cache[url];
-
-    const stored = localStorage.getItem(url);
-    if (stored) {
-        cache[url] = JSON.parse(stored);
-        return cache[url];
-    }
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    cache[url] = data;
-    localStorage.setItem(url, JSON.stringify(data));
-
-    return data;
-}
-
-// ===============================
+// ================================
 // CARGAR INDEX
-// ===============================
-async function cargarIndex() {
-    indexData = await fetchConCache(`${BASE_URL}/index_hierarquico.json`);
-    mostrarPais();
+// ================================
+async function cargarIndice() {
+
+    const res = await fetch(INDEX_FILE + "?t=" + Date.now());
+    INDEX_DATA = await res.json();
+
+    llenarDepartamentos();
 }
 
-// ===============================
-// PAÍS
-// ===============================
-async function mostrarPais() {
-    const data = await fetchConCache(indexData.pais.url);
-    actualizarVista("País", data, null);
-}
+// ================================
+// DEPARTAMENTOS
+// ================================
+function llenarDepartamentos() {
 
-// ===============================
-// DEPARTAMENTO
-// ===============================
-async function mostrarDepartamento(cod) {
-    const dep = indexData.departamentos[cod];
-    const data = await fetchConCache(dep.url);
-    actualizarVista(dep.nombre, data, cod);
-}
+    const depSelect = document.getElementById("dep-select");
 
-// ===============================
-// ACTUALIZAR UI
-// ===============================
-function actualizarVista(nombre, data, codDep) {
+    depSelect.innerHTML = '<option value="">Seleccione departamento</option>';
 
-    currentData = data;
+    for (const depKey in INDEX_DATA.departamentos) {
 
-    // Breadcrumb
-    const bc = document.getElementById("breadcrumb");
-    bc.innerHTML = `
-      <li class="breadcrumb-item"><a href="#" onclick="mostrarPais()">País</a></li>
-      ${codDep ? `<li class="breadcrumb-item active">${nombre}</li>` : ""}
-    `;
+        const dep = INDEX_DATA.departamentos[depKey];
+        const nombre = dep.nombre || depKey;
 
-    // Totales
-    document.getElementById("totalVotos").innerText = data.total_votos || 0;
-    document.getElementById("totalMesas").innerText = data.total_mesas || 0;
+        const option = document.createElement("option");
 
-    // Gráfico
-    renderGrafico(data.resultados);
+        option.value = depKey;
+        option.textContent = `${depKey} - ${nombre}`;
 
-    // Ranking
-    renderRanking(data.resultados);
-
-    // Lista departamentos si estamos en país
-    if (!codDep) {
-        mostrarListaDepartamentos();
+        depSelect.appendChild(option);
     }
 }
 
-// ===============================
-// LISTA DEPARTAMENTOS
-// ===============================
-function mostrarListaDepartamentos() {
+// ================================
+// MUNICIPIOS
+// ================================
+function llenarMunicipios(depKey) {
 
-    const rankingDiv = document.getElementById("ranking");
-    rankingDiv.innerHTML = "<h6>Seleccione Departamento</h6>";
+    const munSelect = document.getElementById("mun-select");
 
-    Object.entries(indexData.departamentos).forEach(([cod, dep]) => {
-        rankingDiv.innerHTML += `
-            <div>
-              <a href="#" onclick="mostrarDepartamento('${cod}')">
-                ${dep.nombre}
-              </a>
-            </div>
-        `;
-    });
+    munSelect.innerHTML = '<option value="">Seleccione municipio</option>';
+
+    if (!depKey) return;
+
+    const dep = INDEX_DATA.departamentos[depKey];
+
+    for (const munKey in dep.municipios) {
+
+        const option = document.createElement("option");
+
+        option.value = munKey;
+        option.textContent = munKey;
+
+        munSelect.appendChild(option);
+    }
 }
 
-// ===============================
-// GRÁFICO
-// ===============================
-function renderGrafico(resultados) {
+// ================================
+// ZONAS
+// ================================
+function llenarZonas(depKey, munKey) {
 
-    const ctx = document.getElementById("grafico");
+    const zonaSelect = document.getElementById("zona-select");
 
-    const partidos = Object.keys(resultados);
-    const votos = Object.values(resultados);
+    zonaSelect.innerHTML = '<option value="">Seleccione zona</option>';
 
-    if (chart) chart.destroy();
+    if (!depKey || !munKey) return;
 
-    chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: partidos,
-            datasets: [{
-                label: 'Votos',
-                data: votos
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
+    const mun = INDEX_DATA.departamentos[depKey].municipios[munKey];
+
+    for (const zonaKey in mun.zonas) {
+
+        const option = document.createElement("option");
+
+        option.value = zonaKey;
+        option.textContent = zonaKey;
+
+        zonaSelect.appendChild(option);
+    }
+}
+
+// ================================
+// PUESTOS
+// ================================
+function llenarPuestos(depKey, munKey, zonaKey) {
+
+    const puestoSelect = document.getElementById("puesto-select");
+
+    puestoSelect.innerHTML = '<option value="">Seleccione puesto</option>';
+
+    if (!depKey || !munKey || !zonaKey) return;
+
+    const zona = INDEX_DATA.departamentos[depKey]
+        .municipios[munKey]
+        .zonas[zonaKey];
+
+    for (const puestoKey in zona.puestos) {
+
+        const option = document.createElement("option");
+
+        option.value = puestoKey;
+        option.textContent = puestoKey;
+
+        puestoSelect.appendChild(option);
+    }
+}
+
+// ================================
+// MESAS
+// ================================
+function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
+
+    const mesaSelect = document.getElementById("mesa-select");
+
+    mesaSelect.innerHTML = '<option value="">Seleccione mesa</option>';
+
+    if (!depKey || !munKey || !zonaKey || !puestoKey) return;
+
+    const puesto = INDEX_DATA.departamentos[depKey]
+        .municipios[munKey]
+        .zonas[zonaKey]
+        .puestos[puestoKey];
+
+    for (const mesaKey in puesto.mesas) {
+
+        const option = document.createElement("option");
+
+        option.value = mesaKey;
+        option.textContent = mesaKey;
+
+        mesaSelect.appendChild(option);
+    }
+}
+
+// ================================
+// CONSTRUIR URL DE MESA
+// ================================
+function construirUrlMesa(mesa) {
+
+    const dep = document.getElementById("dep-select").value;
+    const mun = document.getElementById("mun-select").value;
+    const zona = document.getElementById("zona-select").value;
+    const puesto = document.getElementById("puesto-select").value;
+
+    const depNombre = INDEX_DATA.departamentos[dep].nombre;
+
+    return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
+}
+
+// ================================
+// CARGAR MESA
+// ================================
+async function cargarMesa(url) {
+
+    if (!url) return;
+
+    const tbody = document.querySelector("#results-table tbody");
+    tbody.innerHTML = "";
+
+    let data;
+
+    if (cache[url]) {
+
+        data = cache[url];
+
+    } else {
+
+        const res = await fetch(url + "?t=" + Date.now());
+
+        if (!res.ok) {
+
+            console.error("Error cargando JSON:", url);
+            return;
         }
-    });
-}
 
-// ===============================
-// RANKING DINÁMICO
-// ===============================
-function renderRanking(resultados) {
+        data = await res.json();
 
-    const rankingDiv = document.getElementById("ranking");
+        cache[url] = data;
+    }
 
-    const ordenado = Object.entries(resultados)
-        .sort((a,b) => b[1] - a[1]);
+    const partidos = Object.keys(data).filter(k => k !== "Total votos");
 
-    rankingDiv.innerHTML = "";
+    const ranking = partidos
+        .map(p => ({ partido: p, votos: parseInt(data[p]) }))
+        .sort((a, b) => b.votos - a.votos);
 
-    ordenado.forEach(([candidato, votos], index) => {
-        rankingDiv.innerHTML += `
-          <div class="d-flex justify-content-between border-bottom py-1">
-            <span>${index+1}. ${candidato}</span>
-            <strong>${votos}</strong>
-          </div>
+    ranking.forEach((r, i) => {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${r.partido}</td>
+            <td>${r.votos}</td>
+            <td>${i + 1}</td>
         `;
+
+        tbody.appendChild(tr);
     });
+
+    // TOTAL VOTOS
+    const totalDiv = document.getElementById("total-votos");
+
+    totalDiv.style.display = "block";
+    totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
+
+    // BREADCRUMB
+    const breadcrumb = document.getElementById("breadcrumb");
+
+    const path = url.replace(BASE_URL + "/", "").split("/");
+
+    breadcrumb.innerHTML = path.map(p => `<span>${p}</span>`).join(" > ");
+
+    // CSV
+    document.getElementById("download-csv").onclick = () =>
+        descargarCSV(ranking, url.split("/").pop());
 }
 
-// ===============================
+// ================================
 // DESCARGAR CSV
-// ===============================
-function descargarCSV() {
+// ================================
+function descargarCSV(data, nombreArchivo) {
 
-    if (!currentData) return;
+    const rows = [
+        ["Candidato", "Votos", "Ranking"],
+        ...data.map((d, i) => [d.partido, d.votos, i + 1])
+    ];
 
-    let csv = "Candidato,Votos\n";
+    const csv = rows.map(r => r.join(",")).join("\n");
 
-    Object.entries(currentData.resultados).forEach(([p,v]) => {
-        csv += `${p},${v}\n`;
-    });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
 
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "resultados.csv";
-    a.click();
+    link.href = URL.createObjectURL(blob);
+    link.download = nombreArchivo.replace(".json", ".csv");
+
+    link.click();
 }
 
-// ===============================
-cargarIndex();
+// ================================
+// EVENTOS
+// ================================
+document.getElementById("dep-select").addEventListener("change", (e) => {
+
+    llenarMunicipios(e.target.value);
+
+    document.getElementById("zona-select").innerHTML = '<option value="">Seleccione zona</option>';
+    document.getElementById("puesto-select").innerHTML = '<option value="">Seleccione puesto</option>';
+    document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
+});
+
+document.getElementById("mun-select").addEventListener("change", (e) => {
+
+    const depKey = document.getElementById("dep-select").value;
+
+    llenarZonas(depKey, e.target.value);
+
+    document.getElementById("puesto-select").innerHTML = '<option value="">Seleccione puesto</option>';
+    document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
+});
+
+document.getElementById("zona-select").addEventListener("change", (e) => {
+
+    const depKey = document.getElementById("dep-select").value;
+    const munKey = document.getElementById("mun-select").value;
+
+    llenarPuestos(depKey, munKey, e.target.value);
+
+    document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
+});
+
+document.getElementById("puesto-select").addEventListener("change", (e) => {
+
+    const depKey = document.getElementById("dep-select").value;
+    const munKey = document.getElementById("mun-select").value;
+    const zonaKey = document.getElementById("zona-select").value;
+
+    llenarMesas(depKey, munKey, zonaKey, e.target.value);
+});
+
+document.getElementById("mesa-select").addEventListener("change", (e) => {
+
+    const mesa = e.target.value;
+
+    const url = construirUrlMesa(mesa);
+
+    cargarMesa(url);
+});
+
+// ================================
+cargarIndice();

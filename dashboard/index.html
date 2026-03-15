@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resultados Presidencia 2026</title>
+
 <style>
 body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:0; }
 header { background:#003366; color:white; padding:1rem; text-align:center; }
@@ -19,186 +20,321 @@ th { background:#003366; color:white; }
 .total-votos { margin-top:1rem; background:#fffbcc; padding:1rem; font-weight:bold; text-align:center; border:2px solid #ffd700; font-size:1.2rem; }
 @media (max-width:768px) { table, th, td { font-size:0.8rem; } }
 </style>
+
 </head>
+
 <body>
-<header><h1>Resultados Presidencia 2026</h1></header>
+
+<header>
+<h1>Resultados Presidencia 2026</h1>
+</header>
+
 <div class="container">
-  <div class="breadcrumb" id="breadcrumb"></div>
 
-  <select id="dep-select"><option value="">Seleccione departamento</option></select>
+<div class="breadcrumb" id="breadcrumb"></div>
 
-  <select id="mun-select"><option value="">Seleccione municipio</option></select>
+<select id="dep-select">
+<option value="">Seleccione departamento</option>
+</select>
 
-  <select id="zona-select"><option value="">Seleccione zona</option></select>
+<select id="mun-select">
+<option value="">Seleccione municipio</option>
+</select>
 
-  <select id="puesto-select"><option value="">Seleccione puesto</option></select>
+<select id="zona-select">
+<option value="">Seleccione zona</option>
+</select>
 
-  <select id="mesa-select"><option value="">Seleccione mesa</option></select>
+<select id="puesto-select">
+<option value="">Seleccione puesto</option>
+</select>
 
-  <table id="results-table">
-    <thead><tr><th>Candidato</th><th>Votos</th><th>Ranking</th></tr></thead>
-    <tbody></tbody>
-  </table>
+<select id="mesa-select">
+<option value="">Seleccione mesa</option>
+</select>
 
-  <div id="total-votos" class="total-votos" style="display:none;"></div>
+<table id="results-table">
+<thead>
+<tr>
+<th>Candidato</th>
+<th>Votos</th>
+<th>Ranking</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
 
-  <button class="button-download" id="download-csv">Descargar CSV</button>
+<div id="total-votos" class="total-votos" style="display:none;"></div>
+
+<button class="button-download" id="download-csv">
+Descargar CSV
+</button>
+
 </div>
 
 <script>
+
 const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
 const INDEX_FILE = `${BASE_URL}/index_hierarquico.json`;
+
 let INDEX_DATA = {};
 const cache = {};
 
-async function cargarIndice() {
-    const res = await fetch(INDEX_FILE);
+async function cargarIndice(){
+
+    const res = await fetch(INDEX_FILE + "?t=" + Date.now());
+
+    if(!res.ok){
+        console.error("Error cargando index_hierarquico.json");
+        return;
+    }
+
     INDEX_DATA = await res.json();
+
     llenarDepartamentos();
 }
 
-function llenarDepartamentos() {
+function llenarDepartamentos(){
+
     const depSelect = document.getElementById("dep-select");
+
     depSelect.innerHTML = '<option value="">Seleccione departamento</option>';
-    for (const depKey in INDEX_DATA.departamentos) {
+
+    for(const depKey in INDEX_DATA.departamentos){
+
         const dep = INDEX_DATA.departamentos[depKey];
-        const nombre = dep.nombre || depKey;
+
         const option = document.createElement("option");
+
         option.value = depKey;
-        option.textContent = `${depKey} - ${nombre}`;
+        option.textContent = `${depKey} - ${dep.nombre}`;
+
         depSelect.appendChild(option);
     }
 }
 
-function llenarMunicipios(depKey) {
+function llenarMunicipios(depKey){
+
     const munSelect = document.getElementById("mun-select");
+
     munSelect.innerHTML = '<option value="">Seleccione municipio</option>';
-    if (!depKey) return;
+
+    if(!depKey) return;
+
     const dep = INDEX_DATA.departamentos[depKey];
-    for (const munKey in dep.municipios) {
+
+    for(const munKey in dep.municipios){
+
         const option = document.createElement("option");
+
         option.value = munKey;
         option.textContent = munKey;
+
         munSelect.appendChild(option);
     }
 }
 
-function llenarZonas(depKey, munKey) {
+function llenarZonas(depKey, munKey){
+
     const zonaSelect = document.getElementById("zona-select");
+
     zonaSelect.innerHTML = '<option value="">Seleccione zona</option>';
-    if (!depKey || !munKey) return;
-    const dep = INDEX_DATA.departamentos[depKey];
-    const mun = dep.municipios[munKey];
-    for (const zonaKey in mun.zonas) {
+
+    if(!depKey || !munKey) return;
+
+    const mun = INDEX_DATA.departamentos[depKey].municipios[munKey];
+
+    for(const zonaKey in mun.zonas){
+
         const option = document.createElement("option");
+
         option.value = zonaKey;
         option.textContent = zonaKey;
+
         zonaSelect.appendChild(option);
     }
 }
 
-function llenarPuestos(depKey, munKey, zonaKey) {
+function llenarPuestos(depKey, munKey, zonaKey){
+
     const puestoSelect = document.getElementById("puesto-select");
+
     puestoSelect.innerHTML = '<option value="">Seleccione puesto</option>';
-    if (!depKey || !munKey || !zonaKey) return;
+
+    if(!depKey || !munKey || !zonaKey) return;
+
     const zona = INDEX_DATA.departamentos[depKey].municipios[munKey].zonas[zonaKey];
-    for (const puestoKey in zona.puestos) {
+
+    for(const puestoKey in zona.puestos){
+
         const option = document.createElement("option");
+
         option.value = puestoKey;
         option.textContent = puestoKey;
+
         puestoSelect.appendChild(option);
     }
 }
 
-function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
+function llenarMesas(depKey, munKey, zonaKey, puestoKey){
+
     const mesaSelect = document.getElementById("mesa-select");
+
     mesaSelect.innerHTML = '<option value="">Seleccione mesa</option>';
-    if (!depKey || !munKey || !zonaKey || !puestoKey) return;
+
+    if(!depKey || !munKey || !zonaKey || !puestoKey) return;
+
     const puesto = INDEX_DATA.departamentos[depKey].municipios[munKey].zonas[zonaKey].puestos[puestoKey];
-    for (const mesaKey in puesto.mesas) {
+
+    for(const mesaKey in puesto.mesas){
+
         const option = document.createElement("option");
-        option.value = puesto.mesas[mesaKey].url;
+
+        option.value = mesaKey;   // usamos solo el código de mesa
         option.textContent = mesaKey;
+
         mesaSelect.appendChild(option);
     }
 }
 
-async function cargarMesa(url) {
-    if (!url) return;
+function construirURLMesa(mesa){
+
+    const dep = document.getElementById("dep-select").value;
+    const mun = document.getElementById("mun-select").value;
+    const zona = document.getElementById("zona-select").value;
+    const puesto = document.getElementById("puesto-select").value;
+
+    const depNombre = INDEX_DATA.departamentos[dep].nombre;
+
+    return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
+}
+
+async function cargarMesa(url){
+
+    if(!url) return;
+
     const tbody = document.querySelector("#results-table tbody");
+
     tbody.innerHTML = "";
+
     let data;
-    if (cache[url]) {
+
+    if(cache[url]){
+
         data = cache[url];
+
     } else {
-        const res = await fetch(url);
+
+        const res = await fetch(url + "?t=" + Date.now());
+
+        if(!res.ok){
+            console.error("Error cargando JSON",url);
+            return;
+        }
+
         data = await res.json();
+
         cache[url] = data;
     }
 
     const partidos = Object.keys(data).filter(k => k !== "Total votos");
-    const ranking = partidos.map(p => ({partido:p,votos:parseInt(data[p])}))
-                            .sort((a,b)=>b.votos - a.votos);
+
+    const ranking = partidos
+        .map(p => ({partido:p,votos:parseInt(data[p])}))
+        .sort((a,b)=>b.votos-a.votos);
 
     ranking.forEach((r,i)=>{
+
         const tr = document.createElement("tr");
+
         tr.innerHTML = `<td>${r.partido}</td><td>${r.votos}</td><td>${i+1}</td>`;
+
         tbody.appendChild(tr);
     });
 
-    // Mostrar Total votos
     const totalDiv = document.getElementById("total-votos");
-    totalDiv.style.display = "block";
+
+    totalDiv.style.display="block";
+
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
-    // Breadcrumb
     const breadcrumb = document.getElementById("breadcrumb");
+
     const path = url.replace(BASE_URL+"/","").split("/");
+
     breadcrumb.innerHTML = path.map(p=>`<span>${p}</span>`).join(" > ");
 
-    // CSV
-    document.getElementById("download-csv").onclick = ()=>descargarCSV(ranking, url.split("/").pop());
+    document.getElementById("download-csv").onclick =
+        ()=>descargarCSV(ranking,url.split("/").pop());
 }
 
 function descargarCSV(data,nombreArchivo){
+
     const rows = [["Candidato","Votos","Ranking"],...data.map((d,i)=>[d.partido,d.votos,i+1])];
+
     const csv = rows.map(r=>r.join(",")).join("\n");
+
     const blob = new Blob([csv],{type:"text/csv;charset=utf-8;"});
+
     const link = document.createElement("a");
+
     link.href = URL.createObjectURL(blob);
+
     link.download = nombreArchivo.replace(".json",".csv");
+
     link.click();
 }
 
 document.getElementById("dep-select").addEventListener("change",(e)=>{
+
     llenarMunicipios(e.target.value);
+
     document.getElementById("zona-select").innerHTML='<option value="">Seleccione zona</option>';
     document.getElementById("puesto-select").innerHTML='<option value="">Seleccione puesto</option>';
     document.getElementById("mesa-select").innerHTML='<option value="">Seleccione mesa</option>';
 });
+
 document.getElementById("mun-select").addEventListener("change",(e)=>{
-    const depKey = document.getElementById("dep-select").value;
+
+    const depKey=document.getElementById("dep-select").value;
+
     llenarZonas(depKey,e.target.value);
+
     document.getElementById("puesto-select").innerHTML='<option value="">Seleccione puesto</option>';
     document.getElementById("mesa-select").innerHTML='<option value="">Seleccione mesa</option>';
 });
+
 document.getElementById("zona-select").addEventListener("change",(e)=>{
-    const depKey = document.getElementById("dep-select").value;
-    const munKey = document.getElementById("mun-select").value;
+
+    const depKey=document.getElementById("dep-select").value;
+    const munKey=document.getElementById("mun-select").value;
+
     llenarPuestos(depKey,munKey,e.target.value);
+
     document.getElementById("mesa-select").innerHTML='<option value="">Seleccione mesa</option>';
 });
+
 document.getElementById("puesto-select").addEventListener("change",(e)=>{
-    const depKey = document.getElementById("dep-select").value;
-    const munKey = document.getElementById("mun-select").value;
-    const zonaKey = document.getElementById("zona-select").value;
+
+    const depKey=document.getElementById("dep-select").value;
+    const munKey=document.getElementById("mun-select").value;
+    const zonaKey=document.getElementById("zona-select").value;
+
     llenarMesas(depKey,munKey,zonaKey,e.target.value);
 });
+
 document.getElementById("mesa-select").addEventListener("change",(e)=>{
-    cargarMesa(e.target.value);
+
+    const mesa = e.target.value;
+
+    const url = construirURLMesa(mesa);
+
+    cargarMesa(url);
 });
 
 cargarIndice();
+
 </script>
+
 </body>
 </html>
