@@ -5,11 +5,33 @@ let INDEX_DATA = {};
 const cache = {};
 
 // ================================
+// UTILIDAD: LIMPIAR RESULTADOS
+// ================================
+function limpiarResultados() {
+
+    const tbody = document.querySelector("#results-table tbody");
+    tbody.innerHTML = "";
+
+    const totalDiv = document.getElementById("total-votos");
+    totalDiv.style.display = "none";
+    totalDiv.textContent = "";
+
+    const breadcrumb = document.getElementById("breadcrumb");
+    breadcrumb.innerHTML = "";
+}
+
+// ================================
 // CARGAR INDEX
 // ================================
 async function cargarIndice() {
 
     const res = await fetch(INDEX_FILE + "?t=" + Date.now());
+
+    if (!res.ok) {
+        console.error("Error cargando index");
+        return;
+    }
+
     INDEX_DATA = await res.json();
 
     llenarDepartamentos();
@@ -27,12 +49,11 @@ function llenarDepartamentos() {
     for (const depKey in INDEX_DATA.departamentos) {
 
         const dep = INDEX_DATA.departamentos[depKey];
-        const nombre = dep.nombre || depKey;
 
         const option = document.createElement("option");
 
         option.value = depKey;
-        option.textContent = `${depKey} - ${nombre}`;
+        option.textContent = `${depKey} - ${dep.nombre}`;
 
         depSelect.appendChild(option);
     }
@@ -140,7 +161,7 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 }
 
 // ================================
-// CONSTRUIR URL DE MESA
+// CONSTRUIR URL
 // ================================
 function construirUrlMesa(mesa) {
 
@@ -175,7 +196,6 @@ async function cargarMesa(url) {
         const res = await fetch(url + "?t=" + Date.now());
 
         if (!res.ok) {
-
             console.error("Error cargando JSON:", url);
             return;
         }
@@ -185,63 +205,37 @@ async function cargarMesa(url) {
         cache[url] = data;
     }
 
+    // Mantener orden original
     const partidos = Object.keys(data).filter(k => k !== "Total votos");
 
-    const ranking = partidos
-        .map(p => ({ partido: p, votos: parseInt(data[p]) }))
-        .sort((a, b) => b.votos - a.votos);
+    partidos.forEach((p) => {
 
-    ranking.forEach((r, i) => {
+        let nombre = p.replace("Votos por ", "");
+
+        const votos = parseInt(data[p]);
 
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-            <td>${r.partido}</td>
-            <td>${r.votos}</td>
-            <td>${i + 1}</td>
+            <td>${nombre}</td>
+            <td>${votos}</td>
         `;
 
         tbody.appendChild(tr);
     });
 
-    // TOTAL VOTOS
+    // Total votos
     const totalDiv = document.getElementById("total-votos");
 
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
-    // BREADCRUMB
+    // Breadcrumb
     const breadcrumb = document.getElementById("breadcrumb");
 
     const path = url.replace(BASE_URL + "/", "").split("/");
 
     breadcrumb.innerHTML = path.map(p => `<span>${p}</span>`).join(" > ");
-
-    // CSV
-    document.getElementById("download-csv").onclick = () =>
-        descargarCSV(ranking, url.split("/").pop());
-}
-
-// ================================
-// DESCARGAR CSV
-// ================================
-function descargarCSV(data, nombreArchivo) {
-
-    const rows = [
-        ["Candidato", "Votos", "Ranking"],
-        ...data.map((d, i) => [d.partido, d.votos, i + 1])
-    ];
-
-    const csv = rows.map(r => r.join(",")).join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-
-    const link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-    link.download = nombreArchivo.replace(".json", ".csv");
-
-    link.click();
 }
 
 // ================================
@@ -250,6 +244,7 @@ function descargarCSV(data, nombreArchivo) {
 document.getElementById("dep-select").addEventListener("change", (e) => {
 
     llenarMunicipios(e.target.value);
+    limpiarResultados();
 
     document.getElementById("zona-select").innerHTML = '<option value="">Seleccione zona</option>';
     document.getElementById("puesto-select").innerHTML = '<option value="">Seleccione puesto</option>';
@@ -261,6 +256,7 @@ document.getElementById("mun-select").addEventListener("change", (e) => {
     const depKey = document.getElementById("dep-select").value;
 
     llenarZonas(depKey, e.target.value);
+    limpiarResultados();
 
     document.getElementById("puesto-select").innerHTML = '<option value="">Seleccione puesto</option>';
     document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
@@ -272,6 +268,7 @@ document.getElementById("zona-select").addEventListener("change", (e) => {
     const munKey = document.getElementById("mun-select").value;
 
     llenarPuestos(depKey, munKey, e.target.value);
+    limpiarResultados();
 
     document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
 });
@@ -283,6 +280,7 @@ document.getElementById("puesto-select").addEventListener("change", (e) => {
     const zonaKey = document.getElementById("zona-select").value;
 
     llenarMesas(depKey, munKey, zonaKey, e.target.value);
+    limpiarResultados();
 });
 
 document.getElementById("mesa-select").addEventListener("change", (e) => {
