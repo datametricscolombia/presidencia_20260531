@@ -212,7 +212,7 @@ async function cargarMesa(url) {
         cache[url] = data;
     }
 
-    const partidos = Object.keys(data).filter(k => k !== "Total votos");
+    const partidos = Object.keys(data).filter(k => k !== "Total votos" && k !== "url_image");
 
     partidos.forEach((p) => {
 
