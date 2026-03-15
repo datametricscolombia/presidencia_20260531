@@ -9,8 +9,11 @@ const cache = {};
 // ================================
 function limpiarResultados() {
 
-    const tbody = document.querySelector("#results-table tbody");
+    const table = document.getElementById("results-table");
+    const tbody = table.querySelector("tbody");
+
     tbody.innerHTML = "";
+    table.style.display = "none";
 
     const totalDiv = document.getElementById("total-votos");
     totalDiv.style.display = "none";
@@ -182,7 +185,9 @@ async function cargarMesa(url) {
 
     if (!url) return;
 
-    const tbody = document.querySelector("#results-table tbody");
+    const table = document.getElementById("results-table");
+    const tbody = table.querySelector("tbody");
+
     tbody.innerHTML = "";
 
     let data;
@@ -205,13 +210,11 @@ async function cargarMesa(url) {
         cache[url] = data;
     }
 
-    // Mantener orden original
     const partidos = Object.keys(data).filter(k => k !== "Total votos");
 
     partidos.forEach((p) => {
 
-        let nombre = p.replace("Votos por ", "");
-
+        const nombre = p.replace("Votos por ", "");
         const votos = parseInt(data[p]);
 
         const tr = document.createElement("tr");
@@ -224,13 +227,13 @@ async function cargarMesa(url) {
         tbody.appendChild(tr);
     });
 
-    // Total votos
+    table.style.display = "table";
+
     const totalDiv = document.getElementById("total-votos");
 
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
-    // Breadcrumb
     const breadcrumb = document.getElementById("breadcrumb");
 
     const path = url.replace(BASE_URL + "/", "").split("/");
@@ -293,4 +296,6 @@ document.getElementById("mesa-select").addEventListener("change", (e) => {
 });
 
 // ================================
+document.getElementById("results-table").style.display = "none";
+
 cargarIndice();
