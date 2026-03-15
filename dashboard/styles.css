@@ -1,11 +1,80 @@
 body {
   background-color: #f4f6f9;
+  font-family: Arial, sans-serif;
+  margin:0;
 }
 
-.card {
-  border-radius: 12px;
+/* HEADER */
+
+header {
+  background: #1b4f72;
+  color: white;
+  padding: 20px;
+  text-align: center;
 }
 
-.breadcrumb-item a {
-  text-decoration: none;
+header h1 {
+  margin: 0;
+}
+
+header h2 {
+  margin-top: 5px;
+  font-weight: normal;
+}
+
+/* CONTENEDOR */
+
+.container{
+  padding:20px;
+}
+
+/* SELECTORES */
+
+.select-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.select-container select {
+  padding: 8px;
+  margin: 6px;
+  min-width: 180px;
+}
+
+/* TABLA */
+
+#results-table {
+  width:100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top:20px;
+}
+
+#results-table th,
+#results-table td {
+  padding:10px;
+  border:1px solid #ddd;
+}
+
+#results-table th {
+  background: #f0f0f0;
+}
+
+/* TOTAL VOTOS */
+
+.total-votos {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 22px;
+  text-align: center;
+  color: #1b4f72;
+}
+
+/* BREADCRUMB */
+
+.breadcrumb {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #666;
 }

@@ -5,7 +5,7 @@ let INDEX_DATA = {};
 const cache = {};
 
 // ================================
-// UTILIDAD: LIMPIAR RESULTADOS
+// LIMPIAR RESULTADOS
 // ================================
 function limpiarResultados() {
 
@@ -19,8 +19,7 @@ function limpiarResultados() {
     totalDiv.style.display = "none";
     totalDiv.textContent = "";
 
-    const breadcrumb = document.getElementById("breadcrumb");
-    breadcrumb.innerHTML = "";
+    document.getElementById("breadcrumb").innerHTML = "";
 }
 
 // ================================
@@ -28,16 +27,21 @@ function limpiarResultados() {
 // ================================
 async function cargarIndice() {
 
-    const res = await fetch(INDEX_FILE + "?t=" + Date.now());
+    try {
 
-    if (!res.ok) {
-        console.error("Error cargando index");
-        return;
+        const res = await fetch(INDEX_FILE + "?t=" + Date.now());
+
+        if (!res.ok) throw new Error("No se pudo cargar el índice");
+
+        INDEX_DATA = await res.json();
+
+        llenarDepartamentos();
+
+    } catch (error) {
+
+        console.error(error);
+
     }
-
-    INDEX_DATA = await res.json();
-
-    llenarDepartamentos();
 }
 
 // ================================
@@ -121,9 +125,7 @@ function llenarPuestos(depKey, munKey, zonaKey) {
 
     if (!depKey || !munKey || !zonaKey) return;
 
-    const zona = INDEX_DATA.departamentos[depKey]
-        .municipios[munKey]
-        .zonas[zonaKey];
+    const zona = INDEX_DATA.departamentos[depKey].municipios[munKey].zonas[zonaKey];
 
     for (const puestoKey in zona.puestos) {
 
@@ -296,6 +298,4 @@ document.getElementById("mesa-select").addEventListener("change", (e) => {
 });
 
 // ================================
-document.getElementById("results-table").style.display = "none";
-
 cargarIndice();
