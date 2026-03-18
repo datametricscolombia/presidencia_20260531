@@ -84,7 +84,7 @@ function llenarMunicipios(depKey) {
         const option = document.createElement("option");
 
         option.value = munKey;
-        option.textContent = munKey;
+        option.textContent = `${munKey} - ${dep.municipios[munKey].nombre}`;
 
         munSelect.appendChild(option);
     }
@@ -212,7 +212,7 @@ async function cargarMesa(url) {
         cache[url] = data;
     }
 
-    const partidos = Object.keys(data).filter(k => k !== "Total votos" && k !== "url_image");
+    const partidos = Object.keys(data).filter(k => k !== "Total votos");
 
     partidos.forEach((p) => {
 
