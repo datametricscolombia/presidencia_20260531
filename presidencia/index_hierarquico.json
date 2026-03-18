@@ -8,6 +8,7 @@
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/departamento_60.json",
       "municipios": {
         "60001": {
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/municipio_60001.json",
           "zonas": {
             "6000101": {
@@ -98,6 +99,7 @@
           }
         },
         "60013": {
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/municipio_60013.json",
           "zonas": {
             "6001300": {
@@ -116,6 +118,7 @@
           }
         },
         "60021": {
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60021/municipio_60021.json",
           "zonas": {
             "6002100": {
@@ -134,6 +137,7 @@
           }
         },
         "60040": {
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60040/municipio_60040.json",
           "zonas": {
             "6004000": {
