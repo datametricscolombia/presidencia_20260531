@@ -98,25 +98,6 @@
             }
           }
         },
-        "60013": {
-          "nombre": "LA CHORRERA",
-          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/municipio_60013.json",
-          "zonas": {
-            "60013_Zona_00": {
-              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/zona_6001300/zona_6001300.json",
-              "puestos": {
-                "6001300_Puesto_00": {
-                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/zona_6001300/puesto_600130000/puesto_600130000.json",
-                  "mesas": {
-                    "600130000_Mesa_004": {
-                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/zona_6001300/puesto_600130000/mesa_600130000004/mesa_600130000004.json"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "60021": {
           "nombre": "PUERTO SANTANDER",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60021/municipio_60021.json",
