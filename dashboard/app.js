@@ -245,7 +245,12 @@ async function cargarMesa(url) {
         cache[url] = data;
     }
 
-    const partidos = Object.keys(data).filter(k => k !== "Total votos");
+    const partidos = Object.keys(data).filter(k =>
+    k.startsWith("Votos por") ||
+    k === "Votos en Blanco" ||
+    k === "Votos Nulos" ||
+    k === "Votos No Marcados"
+);
 
     partidos.forEach((p) => {
 
