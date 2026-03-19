@@ -17,10 +17,10 @@
                 "6000101_Puesto_01": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010101/puesto_600010101.json",
                   "mesas": {
-                    "600010101_Mesa_001": {
+                    "Mesa_001": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010101/mesa_600010101001/mesa_600010101001.json"
                     },
-                    "600010101_Mesa_008": {
+                    "Mesa_008": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010101/mesa_600010101008/mesa_600010101008.json"
                     }
                   }
@@ -28,10 +28,10 @@
                 "6000101_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010102/puesto_600010102.json",
                   "mesas": {
-                    "600010102_Mesa_011": {
+                    "Mesa_011": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010102/mesa_600010102011/mesa_600010102011.json"
                     },
-                    "600010102_Mesa_014": {
+                    "Mesa_014": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010102/mesa_600010102014/mesa_600010102014.json"
                     }
                   }
@@ -39,7 +39,7 @@
                 "6000101_Puesto_03": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010103/puesto_600010103.json",
                   "mesas": {
-                    "600010103_Mesa_001": {
+                    "Mesa_001": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000101/puesto_600010103/mesa_600010103001/mesa_600010103001.json"
                     }
                   }
@@ -52,10 +52,10 @@
                 "6000102_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/puesto_600010202.json",
                   "mesas": {
-                    "600010202_Mesa_027": {
+                    "Mesa_027": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/mesa_600010202027/mesa_600010202027.json"
                     },
-                    "600010202_Mesa_028": {
+                    "Mesa_028": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/mesa_600010202028/mesa_600010202028.json"
                     }
                   }
@@ -63,7 +63,7 @@
                 "6000102_Puesto_03": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010203/puesto_600010203.json",
                   "mesas": {
-                    "600010203_Mesa_023": {
+                    "Mesa_023": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010203/mesa_600010203023/mesa_600010203023.json"
                     }
                   }
@@ -76,7 +76,7 @@
                 "6000171_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000171/puesto_600017102/puesto_600017102.json",
                   "mesas": {
-                    "600017102_Mesa_015": {
+                    "Mesa_015": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000171/puesto_600017102/mesa_600017102015/mesa_600017102015.json"
                     }
                   }
@@ -89,7 +89,7 @@
                 "6000199_Puesto_71": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000199/puesto_600019971/puesto_600019971.json",
                   "mesas": {
-                    "600019971_Mesa_001": {
+                    "Mesa_001": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000199/puesto_600019971/mesa_600019971001/mesa_600019971001.json"
                     }
                   }
@@ -108,7 +108,7 @@
                 "6001300_Puesto_00": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/zona_6001300/puesto_600130000/puesto_600130000.json",
                   "mesas": {
-                    "600130000_Mesa_004": {
+                    "Mesa_004": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60013/zona_6001300/puesto_600130000/mesa_600130000004/mesa_600130000004.json"
                     }
                   }
@@ -127,7 +127,7 @@
                 "6002100_Puesto_00": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60021/zona_6002100/puesto_600210000/puesto_600210000.json",
                   "mesas": {
-                    "600210000_Mesa_002": {
+                    "Mesa_002": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60021/zona_6002100/puesto_600210000/mesa_600210000002/mesa_600210000002.json"
                     }
                   }
@@ -146,7 +146,7 @@
                 "6004000_Puesto_00": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60040/zona_6004000/puesto_600400000/puesto_600400000.json",
                   "mesas": {
-                    "600400000_Mesa_002": {
+                    "Mesa_002": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia/departamento_60_Amazonas/municipio_60040/zona_6004000/puesto_600400000/mesa_600400000002/mesa_600400000002.json"
                     }
                   }
