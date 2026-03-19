@@ -14,7 +14,7 @@ function parsePuesto(puestoKey) {
 }
 
 function parseMesa(mesaKey) {
-    return mesaKey.split("Mesa_").join("");
+    return mesaKey.split("_Mesa_").join("");
 }
 
 
