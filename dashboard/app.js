@@ -5,6 +5,19 @@ let INDEX_DATA = {};
 const cache = {};
 
 
+function parseZona(zonaKey) {
+    return zonaKey.split("_Zona_").join("");
+}
+
+function parsePuesto(puestoKey) {
+    return puestoKey.split("_Puesto_").join("");
+}
+
+function parseMesa(mesaKey) {
+    return mesaKey.split("_Mesa_").join("");
+}
+
+
 // ================================
 // NORMALIZAR KEYS (NUEVO)
 // ================================
@@ -193,10 +206,10 @@ function construirUrlMesa(mesaKey) {
 
     const depNombre = INDEX_DATA.departamentos[dep].nombre;
 
-    // 🔹 Convertir a códigos reales
-    const zona = extraerCodigoZona(zonaKey);
-    const puesto = extraerCodigoPuesto(puestoKey);
-    const mesa = extraerCodigoMesa(mesaKey);
+    // 🔥 Convertir a códigos reales
+    const zona = parseZona(zonaKey);
+    const puesto = parsePuesto(puestoKey);
+    const mesa = parseMesa(mesaKey);
 
     return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
 }
