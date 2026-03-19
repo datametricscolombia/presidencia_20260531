@@ -4,6 +4,22 @@ const INDEX_FILE = `${BASE_URL}/index_hierarquico.json`;
 let INDEX_DATA = {};
 const cache = {};
 
+
+// ================================
+// NORMALIZAR KEYS (NUEVO)
+// ================================
+function extraerCodigoZona(zonaKey) {
+    return zonaKey.split("_")[0] + zonaKey.split("_")[2];
+}
+
+function extraerCodigoPuesto(puestoKey) {
+    return puestoKey.split("_")[0] + puestoKey.split("_")[2];
+}
+
+function extraerCodigoMesa(mesaKey) {
+    return mesaKey.split("_")[0] + mesaKey.split("_")[2];
+}
+
 // ================================
 // LIMPIAR RESULTADOS
 // ================================
@@ -168,18 +184,22 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 // ================================
 // CONSTRUIR URL
 // ================================
-function construirUrlMesa(mesa) {
+function construirUrlMesa(mesaKey) {
 
     const dep = document.getElementById("dep-select").value;
     const mun = document.getElementById("mun-select").value;
-    const zona = document.getElementById("zona-select").value;
-    const puesto = document.getElementById("puesto-select").value;
+    const zonaKey = document.getElementById("zona-select").value;
+    const puestoKey = document.getElementById("puesto-select").value;
 
     const depNombre = INDEX_DATA.departamentos[dep].nombre;
 
+    // 🔹 Convertir a códigos reales
+    const zona = extraerCodigoZona(zonaKey);
+    const puesto = extraerCodigoPuesto(puestoKey);
+    const mesa = extraerCodigoMesa(mesaKey);
+
     return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
 }
-
 // ================================
 // CARGAR MESA
 // ================================
