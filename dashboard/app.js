@@ -1,4 +1,4 @@
-const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia";
+const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
 const INDEX_FILE = `${BASE_URL}/index_hierarquico.json`;
 
 let INDEX_DATA = {};
