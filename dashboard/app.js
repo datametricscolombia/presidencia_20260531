@@ -49,7 +49,17 @@ function limpiarResultados() {
     totalDiv.textContent = "";
 
     document.getElementById("breadcrumb").innerHTML = "";
-}
+
+    const imgContainer = document.getElementById("imagen-container");
+    if (imgContainer) {
+        imgContainer.style.display = "none";
+    }
+
+    const img = document.getElementById("imagen-mesa");
+    if (img) {
+        img.src = "";
+    }
+    }
 
 // ================================
 // CARGAR INDEX
@@ -364,15 +374,6 @@ document.getElementById("mesa-select").addEventListener("change", (e) => {
     cargarMesa(url);
 });
 
-const imgContainer = document.getElementById("imagen-container");
-if (imgContainer) {
-    imgContainer.style.display = "none";
-}
-
-const img = document.getElementById("imagen-mesa");
-if (img) {
-    img.src = "";
-}
 
 // ================================
 cargarIndice();
