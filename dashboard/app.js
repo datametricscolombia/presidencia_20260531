@@ -50,15 +50,16 @@ function limpiarResultados() {
 
     document.getElementById("breadcrumb").innerHTML = "";
 
-    const imgContainer = document.getElementById("imagen-container");
-    if (imgContainer) {
-        imgContainer.style.display = "none";
-    }
+    
+    //const imgContainer = document.getElementById("imagen-container");
+    //if (imgContainer) {
+    //    imgContainer.style.display = "none";
+    //}
 
-    const img = document.getElementById("imagen-mesa");
-    if (img) {
-        img.src = "";
-    }
+    //const img = document.getElementById("imagen-mesa");
+    //if (img) {
+    //    img.src = "";
+    //}
     }
 
 // ================================
