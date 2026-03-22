@@ -8,7 +8,7 @@
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/departamento_60.json",
       "municipios": {
         "60001": {
-          "nombre": "LETICIA",
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/municipio_60001.json",
           "zonas": {
             "60001_Zona_01": {
@@ -99,7 +99,7 @@
           }
         },
         "60021": {
-          "nombre": "PUERTO SANTANDER",
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60021/municipio_60021.json",
           "zonas": {
             "60021_Zona_00": {
@@ -118,7 +118,7 @@
           }
         },
         "60040": {
-          "nombre": "PUERTO ARICA",
+          "nombre": "",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60040/municipio_60040.json",
           "zonas": {
             "60040_Zona_00": {
