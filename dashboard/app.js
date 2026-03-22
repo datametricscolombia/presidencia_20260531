@@ -276,16 +276,31 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
+        // BOTÓN (se mantiene igual)
         const btn = document.createElement("a");
 
         btn.href = data.url_image;
         btn.target = "_blank";
         btn.className = "btn-image";
-
         btn.textContent = "Ver fotografía E-14";
 
         totalDiv.appendChild(document.createElement("br"));
         totalDiv.appendChild(btn);
+
+        // =========================
+        // IMAGEN (NUEVO)
+        // =========================
+        const imgContainer = document.getElementById("imagen-container");
+        const img = document.getElementById("imagen-mesa");
+
+        img.src = data.url_image;
+        imgContainer.style.display = "block";
+
+    } else {
+
+        // Ocultar si no hay imagen
+        const imgContainer = document.getElementById("imagen-container");
+        imgContainer.style.display = "none";
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
@@ -348,6 +363,16 @@ document.getElementById("mesa-select").addEventListener("change", (e) => {
 
     cargarMesa(url);
 });
+
+const imgContainer = document.getElementById("imagen-container");
+if (imgContainer) {
+    imgContainer.style.display = "none";
+}
+
+const img = document.getElementById("imagen-mesa");
+if (img) {
+    img.src = "";
+}
 
 // ================================
 cargarIndice();
