@@ -1,4 +1,4 @@
-const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
+const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia/presidencia";
 const INDEX_FILE = `${BASE_URL}/index_hierarquico.json`;
 
 let INDEX_DATA = {};
@@ -216,10 +216,10 @@ function construirUrlMesa(mesaKey) {
 
     const depNombre = INDEX_DATA.departamentos[dep].nombre;
 
-    // 🔥 Convertir a códigos reales
-    const zona = parseZona(zonaKey);
-    const puesto = parsePuesto(puestoKey);
-    const mesa = parseMesa(mesaKey);
+    // 🔥 Transformaciones correctas
+    const zona = parseZona(zonaKey);        // 60001_Zona_02 → 6000102
+    const puesto = parsePuesto(puestoKey);  // 60001_Puesto_0202 → 600010202
+    const mesa = parseMesa(mesaKey);        // 60001_Mesa_0202027 → 600010202027
 
     return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
 }
