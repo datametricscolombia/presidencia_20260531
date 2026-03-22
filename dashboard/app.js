@@ -50,16 +50,6 @@ function limpiarResultados() {
 
     document.getElementById("breadcrumb").innerHTML = "";
 
-    
-    //const imgContainer = document.getElementById("imagen-container");
-    //if (imgContainer) {
-    //    imgContainer.style.display = "none";
-    //}
-
-    //const img = document.getElementById("imagen-mesa");
-    //if (img) {
-    //    img.src = "";
-    //}
     }
 
 // ================================
@@ -287,7 +277,6 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
-        // BOTÓN (se mantiene igual)
         const btn = document.createElement("a");
 
         btn.href = data.url_image;
@@ -297,21 +286,6 @@ async function cargarMesa(url) {
 
         totalDiv.appendChild(document.createElement("br"));
         totalDiv.appendChild(btn);
-
-        // =========================
-        // IMAGEN (NUEVO)
-        // =========================
-        const imgContainer = document.getElementById("imagen-container");
-        const img = document.getElementById("imagen-mesa");
-
-        img.src = data.url_image;
-        imgContainer.style.display = "block";
-
-    } else {
-
-        // Ocultar si no hay imagen
-        const imgContainer = document.getElementById("imagen-container");
-        imgContainer.style.display = "none";
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
