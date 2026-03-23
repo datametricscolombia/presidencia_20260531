@@ -291,6 +291,9 @@ async function cargarMesa(url) {
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
+    if (breadcrumb) {
+        breadcrumb.innerHTML = "";
+    }
 
     const path = url.replace(BASE_URL + "/", "").split("/");
 
