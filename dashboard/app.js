@@ -214,6 +214,15 @@ function construirUrlMesa(mesaKey) {
 
     return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
 }
+
+function abrirModalImagen(url) {
+    const modal = document.getElementById("image-modal");
+    const modalImg = document.getElementById("modal-img");
+
+    modal.style.display = "block";
+    modalImg.src = url;
+}
+
 // ================================
 // CARGAR MESA
 // ================================
@@ -313,6 +322,11 @@ async function cargarMesa(url) {
 // ================================
 // EVENTOS
 // ================================
+document.getElementById("close-modal").onclick = () => {
+    document.getElementById("image-modal").style.display = "none";
+};
+
+
 document.getElementById("dep-select").addEventListener("change", (e) => {
 
     llenarMunicipios(e.target.value);
