@@ -277,15 +277,30 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
-        const btn = document.createElement("a");
+        const container = document.createElement("div");
+        container.className = "image-container";
 
-        btn.href = data.url_image;
-        btn.target = "_blank";
+        // 🔽 Thumbnail (intenta versión liviana)
+        const thumbUrl = data.url_image + "?w=300"; // funciona si usas CDN tipo Cloudinary
+
+        const img = document.createElement("img");
+        img.src = thumbUrl;
+        img.alt = "Fotografía E-14";
+        img.loading = "lazy";
+        img.className = "thumb";
+
+        // 🔘 Botón abrir visor
+        const btn = document.createElement("button");
+        btn.textContent = "Ver imagen completa";
         btn.className = "btn-image";
-        btn.textContent = "Ver fotografía E-14";
 
-        totalDiv.appendChild(document.createElement("br"));
-        totalDiv.appendChild(btn);
+        btn.onclick = () => abrirModalImagen(data.url_image);
+
+        container.appendChild(img);
+        container.appendChild(document.createElement("br"));
+        container.appendChild(btn);
+
+        totalDiv.appendChild(container);
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
