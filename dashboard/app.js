@@ -217,67 +217,6 @@ function construirUrlMesa(mesaKey) {
 // ================================
 // CARGAR MESA
 // ================================
-async function cargarImagenAutomatica() {
-
-    try {
-
-        const deps = INDEX_DATA.departamentos;
-
-        // ============================
-        // RECORRIDO JERÁRQUICO
-        // ============================
-        for (const depKey in deps) {
-
-            const dep = deps[depKey];
-
-            for (const munKey in dep.municipios) {
-
-                const mun = dep.municipios[munKey];
-
-                for (const zonaKey in mun.zonas) {
-
-                    const zona = mun.zonas[zonaKey];
-
-                    for (const puestoKey in zona.puestos) {
-
-                        const puesto = zona.puestos[puestoKey];
-
-                        for (const mesaKey in puesto.mesas) {
-
-                            // ============================
-                            // CONSTRUIR URL (MISMA LÓGICA)
-                            // ============================
-                            const url = construirUrlMesa(mesaKey);
-
-                            const res = await fetch(url + "?t=" + Date.now());
-
-                            if (!res.ok) continue;
-
-                            const data = await res.json();
-
-                            // ============================
-                            // SI EXISTE IMAGEN → MOSTRAR
-                            // ============================
-                            if (data.url_image) {
-
-                                const img = document.getElementById("imagen-auto");
-
-                                img.src = data.url_image;
-                                img.style.display = "block";
-
-                                return; // 🔥 se detiene en la primera válida
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    } catch (error) {
-        console.error("Error cargando imagen automática:", error);
-    }
-}
-
 async function cargarMesa(url) {
 
     if (!url) return;
@@ -336,17 +275,39 @@ async function cargarMesa(url) {
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
-    if (data.url_image) {
+// ================================
+// IMAGEN E-14 (BOTÓN + AUTO RENDER)
+// ================================
+if (data.url_image) {
 
-        const btn = document.createElement("a");
+    // -------- BOTÓN EXISTENTE --------
+    const btn = document.createElement("a");
 
-        btn.href = data.url_image;
-        btn.target = "_blank";
-        btn.className = "btn-image";
-        btn.textContent = "Ver fotografía E-14";
+    btn.href = data.url_image;
+    btn.target = "_blank";
+    btn.className = "btn-image";
+    btn.textContent = "Ver fotografía E-14";
 
-        totalDiv.appendChild(document.createElement("br"));
-        totalDiv.appendChild(btn);
+    totalDiv.appendChild(document.createElement("br"));
+    totalDiv.appendChild(btn);
+
+    // -------- NUEVA IMAGEN AUTOMÁTICA --------
+    const imgAuto = document.getElementById("imagen-auto");
+
+    if (imgAuto) {
+        imgAuto.src = data.url_image;
+        imgAuto.style.display = "block";
+    }
+
+    } else {
+
+        // -------- OCULTAR SI NO HAY IMAGEN --------
+        const imgAuto = document.getElementById("imagen-auto");
+
+        if (imgAuto) {
+            imgAuto.style.display = "none";
+            imgAuto.src = "";
+        }
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
@@ -412,11 +373,4 @@ document.getElementById("mesa-select").addEventListener("change", (e) => {
 
 
 // ================================
-async function init() {
-
-    await cargarIndice();
-
-    await cargarImagenAutomatica();
-}
-
-init();
+cargarIndice();
