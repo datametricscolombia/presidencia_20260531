@@ -259,11 +259,11 @@ async function cargarMesa(url) {
     }
 
     const partidos = Object.keys(data).filter(k =>
-    k.startsWith("Votos por") ||
-    k === "Votos en Blanco" ||
-    k === "Votos Nulos" ||
-    k === "Votos No Marcados"
-);
+        k.startsWith("Votos por") ||
+        k === "Votos en Blanco" ||
+        k === "Votos Nulos" ||
+        k === "Votos No Marcados"
+    );
 
     partidos.forEach((p) => {
 
