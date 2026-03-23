@@ -275,39 +275,17 @@ async function cargarMesa(url) {
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
-// ================================
-// IMAGEN E-14 (BOTÓN + AUTO RENDER)
-// ================================
-if (data.url_image) {
+    if (data.url_image) {
 
-    // -------- BOTÓN EXISTENTE --------
-    const btn = document.createElement("a");
+        const btn = document.createElement("a");
 
-    btn.href = data.url_image;
-    btn.target = "_blank";
-    btn.className = "btn-image";
-    btn.textContent = "Ver fotografía E-14";
+        btn.href = data.url_image;
+        btn.target = "_blank";
+        btn.className = "btn-image";
+        btn.textContent = "Ver fotografía E-14";
 
-    totalDiv.appendChild(document.createElement("br"));
-    totalDiv.appendChild(btn);
-
-    // -------- NUEVA IMAGEN AUTOMÁTICA --------
-    const imgAuto = document.getElementById("imagen-auto");
-
-    if (imgAuto) {
-        imgAuto.src = data.url_image;
-        imgAuto.style.display = "block";
-    }
-
-    } else {
-
-        // -------- OCULTAR SI NO HAY IMAGEN --------
-        const imgAuto = document.getElementById("imagen-auto");
-
-        if (imgAuto) {
-            imgAuto.style.display = "none";
-            imgAuto.src = "";
-        }
+        totalDiv.appendChild(document.createElement("br"));
+        totalDiv.appendChild(btn);
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
