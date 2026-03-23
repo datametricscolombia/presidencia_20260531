@@ -275,21 +275,17 @@ async function cargarMesa(url) {
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
 
-    // ================================
-    // MOSTRAR IMAGEN AUTOMÁTICA
-    // ================================
-    const imgContainer = document.getElementById("imagen-auto-container");
-    const imgAuto = document.getElementById("imagen-auto");
+    if (data.url_image) {
 
-    if (data.url_image && imgAuto && imgContainer) {
+        const btn = document.createElement("a");
 
-        imgAuto.src = data.url_image;
-        imgContainer.style.display = "block";
+        btn.href = data.url_image;
+        btn.target = "_blank";
+        btn.className = "btn-image";
+        btn.textContent = "Ver fotografía E-14";
 
-    } else {
-
-        if (imgAuto) imgAuto.src = "";
-        if (imgContainer) imgContainer.style.display = "none";
+        totalDiv.appendChild(document.createElement("br"));
+        totalDiv.appendChild(btn);
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
