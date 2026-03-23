@@ -216,10 +216,13 @@ function construirUrlMesa(mesaKey) {
 }
 
 function abrirModalImagen(url) {
+
     const modal = document.getElementById("image-modal");
     const modalImg = document.getElementById("modal-img");
 
     modal.style.display = "block";
+
+    // 🔥 La imagen SOLO se carga aquí
     modalImg.src = url;
 }
 
@@ -286,30 +289,15 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
-        const container = document.createElement("div");
-        container.className = "image-container";
-
-        // 🔽 Thumbnail (intenta versión liviana)
-        const thumbUrl = data.url_image + "?w=300"; // funciona si usas CDN tipo Cloudinary
-
-        const img = document.createElement("img");
-        img.src = thumbUrl;
-        img.alt = "Fotografía E-14";
-        img.loading = "lazy";
-        img.className = "thumb";
-
-        // 🔘 Botón abrir visor
         const btn = document.createElement("button");
-        btn.textContent = "Ver imagen completa";
+
         btn.className = "btn-image";
+        btn.textContent = "Ver fotografía E-14";
 
         btn.onclick = () => abrirModalImagen(data.url_image);
 
-        container.appendChild(img);
-        container.appendChild(document.createElement("br"));
-        container.appendChild(btn);
-
-        totalDiv.appendChild(container);
+        totalDiv.appendChild(document.createElement("br"));
+        totalDiv.appendChild(btn);
     }
 
     const breadcrumb = document.getElementById("breadcrumb");
@@ -323,7 +311,13 @@ async function cargarMesa(url) {
 // EVENTOS
 // ================================
 document.getElementById("close-modal").onclick = () => {
-    document.getElementById("image-modal").style.display = "none";
+    const modal = document.getElementById("image-modal");
+    const modalImg = document.getElementById("modal-img");
+
+    modal.style.display = "none";
+
+    // 🔥 IMPORTANTE: liberar memoria y evitar recarga innecesaria
+    modalImg.src = "";
 };
 
 
