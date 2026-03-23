@@ -214,18 +214,6 @@ function construirUrlMesa(mesaKey) {
 
     return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
 }
-
-function abrirModalImagen(url) {
-
-    const modal = document.getElementById("image-modal");
-    const modalImg = document.getElementById("modal-img");
-
-    modal.style.display = "block";
-
-    // 🔥 La imagen SOLO se carga aquí
-    modalImg.src = url;
-}
-
 // ================================
 // CARGAR MESA
 // ================================
@@ -259,11 +247,11 @@ async function cargarMesa(url) {
     }
 
     const partidos = Object.keys(data).filter(k =>
-        k.startsWith("Votos por") ||
-        k === "Votos en Blanco" ||
-        k === "Votos Nulos" ||
-        k === "Votos No Marcados"
-    );
+    k.startsWith("Votos por") ||
+    k === "Votos en Blanco" ||
+    k === "Votos Nulos" ||
+    k === "Votos No Marcados"
+);
 
     partidos.forEach((p) => {
 
@@ -289,12 +277,12 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
-        const btn = document.createElement("button");
+        const btn = document.createElement("a");
 
+        btn.href = data.url_image;
+        btn.target = "_blank";
         btn.className = "btn-image";
         btn.textContent = "Ver fotografía E-14";
-
-        btn.onclick = () => abrirModalImagen(data.url_image);
 
         totalDiv.appendChild(document.createElement("br"));
         totalDiv.appendChild(btn);
@@ -310,17 +298,6 @@ async function cargarMesa(url) {
 // ================================
 // EVENTOS
 // ================================
-document.getElementById("close-modal").onclick = () => {
-    const modal = document.getElementById("image-modal");
-    const modalImg = document.getElementById("modal-img");
-
-    modal.style.display = "none";
-
-    // 🔥 IMPORTANTE: liberar memoria y evitar recarga innecesaria
-    modalImg.src = "";
-};
-
-
 document.getElementById("dep-select").addEventListener("change", (e) => {
 
     llenarMunicipios(e.target.value);
