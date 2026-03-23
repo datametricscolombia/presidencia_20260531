@@ -48,15 +48,9 @@ function limpiarResultados() {
     totalDiv.style.display = "none";
     totalDiv.textContent = "";
 
-    // 🔥 limpiar imagen
-    const container = document.getElementById("imagen-container");
-    const img = document.getElementById("imagen-mesa");
-
-    container.style.display = "none";
-    img.src = "";
-
     document.getElementById("breadcrumb").innerHTML = "";
-}
+
+    }
 
 // ================================
 // CARGAR INDEX
@@ -283,21 +277,12 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
-        const btn = document.createElement("button");
+        const btn = document.createElement("a");
 
+        btn.href = data.url_image;
+        btn.target = "_blank";
         btn.className = "btn-image";
         btn.textContent = "Ver fotografía E-14";
-
-        btn.onclick = () => {
-
-            const container = document.getElementById("imagen-container");
-            const img = document.getElementById("imagen-mesa");
-
-            // 🔥 carga SOLO al hacer click
-            img.src = data.url_image;
-
-            container.style.display = "block";
-        };
 
         totalDiv.appendChild(document.createElement("br"));
         totalDiv.appendChild(btn);
