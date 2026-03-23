@@ -277,10 +277,12 @@ async function cargarMesa(url) {
 
     if (data.url_image) {
 
-        const btn = document.createElement("a");
+        const btn = document.createElement("button");
 
-        btn.href = data.url_image;
-        btn.target = "_blank";
+        btn.className = "btn-image";
+        btn.textContent = "Ver fotografía E-14";
+
+        btn.onclick = () => abrirImagen(data.url_image);
         btn.className = "btn-image";
         btn.textContent = "Ver fotografía E-14";
 
@@ -293,6 +295,35 @@ async function cargarMesa(url) {
     const path = url.replace(BASE_URL + "/", "").split("/");
 
     breadcrumb.innerHTML = path.map(p => `<span>${p}</span>`).join(" > ");
+}
+
+function abrirImagen(url) {
+    const modal = document.getElementById("modal-imagen");
+    const img = document.getElementById("img-modal");
+
+    modal.style.display = "block";
+    img.src = url; // 🔥 carga solo aquí
+}
+
+// cerrar con X
+document.getElementById("cerrar-modal").onclick = function () {
+    cerrarModal();
+};
+
+// cerrar haciendo click fuera
+window.onclick = function (event) {
+    const modal = document.getElementById("modal-imagen");
+    if (event.target === modal) {
+        cerrarModal();
+    }
+};
+
+function cerrarModal() {
+    const modal = document.getElementById("modal-imagen");
+    const img = document.getElementById("img-modal");
+
+    modal.style.display = "none";
+    img.src = ""; // 🔥 libera memoria
 }
 
 // ================================

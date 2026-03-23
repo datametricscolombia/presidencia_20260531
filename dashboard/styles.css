@@ -125,3 +125,31 @@ header h2 {
     padding: 8px 12px;
     cursor: pointer;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-contenido {
+    display: block;
+    margin: auto;
+    margin-top: 5%;
+    max-width: 95%;
+    max-height: 90%;
+}
+
+#cerrar-modal {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
