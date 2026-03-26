@@ -3,6 +3,31 @@
     "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/pais.json"
   },
   "departamentos": {
+    "01": {
+      "nombre": "Antioquia",
+      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/departamento_01.json",
+      "municipios": {
+        "01001": {
+          "nombre": "MEDELLIN",
+          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/municipio_01001.json",
+          "zonas": {
+            "01001_Zona_10": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100110/zona_0100110.json",
+              "puestos": {
+                "0100110_Puesto_06": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100110/puesto_010011006/puesto_010011006.json",
+                  "mesas": {
+                    "010011006_Mesa_005": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100110/puesto_010011006/mesa_010011006005/mesa_010011006005.json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "60": {
       "nombre": "Amazonas",
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/departamento_60.json",
