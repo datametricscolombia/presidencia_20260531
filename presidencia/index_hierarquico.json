@@ -64,6 +64,14 @@
             "05127_Zona_99": {
               "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/zona_0512799.json",
               "puestos": {
+                "0512799_Puesto_01": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279901/puesto_051279901.json",
+                  "mesas": {
+                    "051279901_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279901/mesa_051279901001/mesa_051279901001.json"
+                    }
+                  }
+                },
                 "0512799_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279902/puesto_051279902.json",
                   "mesas": {
