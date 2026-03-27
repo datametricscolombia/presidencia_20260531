@@ -28,6 +28,31 @@
         }
       }
     },
+    "03": {
+      "nombre": "Atlántico",
+      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/departamento_03.json",
+      "municipios": {
+        "03043": {
+          "nombre": "SABANAGRANDE",
+          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/municipio_03043/municipio_03043.json",
+          "zonas": {
+            "03043_Zona_02": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/municipio_03043/zona_0304302/zona_0304302.json",
+              "puestos": {
+                "0304302_Puesto_03": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/municipio_03043/zona_0304302/puesto_030430203/puesto_030430203.json",
+                  "mesas": {
+                    "030430203_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/municipio_03043/zona_0304302/puesto_030430203/mesa_030430203001/mesa_030430203001.json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "16": {
       "nombre": "Bogotá",
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/departamento_16.json",
