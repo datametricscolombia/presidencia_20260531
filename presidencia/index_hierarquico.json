@@ -28,6 +28,31 @@
         }
       }
     },
+    "40": {
+      "nombre": "Arauca",
+      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/departamento_40.json",
+      "municipios": {
+        "40001": {
+          "nombre": "ARAUCA",
+          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/municipio_40001/municipio_40001.json",
+          "zonas": {
+            "40001_Zona_01": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/municipio_40001/zona_4000101/zona_4000101.json",
+              "puestos": {
+                "4000101_Puesto_01": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/municipio_40001/zona_4000101/puesto_400010101/puesto_400010101.json",
+                  "mesas": {
+                    "400010101_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/municipio_40001/zona_4000101/puesto_400010101/mesa_400010101001/mesa_400010101001.json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "60": {
       "nombre": "Amazonas",
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/departamento_60.json",
