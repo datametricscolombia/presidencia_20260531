@@ -53,6 +53,31 @@
         }
       }
     },
+    "05": {
+      "nombre": "Bolívar",
+      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/departamento_05.json",
+      "municipios": {
+        "05127": {
+          "nombre": "ZAMBRANO",
+          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/municipio_05127.json",
+          "zonas": {
+            "05127_Zona_99": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/zona_0512799.json",
+              "puestos": {
+                "0512799_Puesto_02": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279902/puesto_051279902.json",
+                  "mesas": {
+                    "051279902_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279902/mesa_051279902001/mesa_051279902001.json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "16": {
       "nombre": "Bogotá",
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/departamento_16.json",
