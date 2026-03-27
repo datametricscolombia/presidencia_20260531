@@ -106,6 +106,31 @@
         }
       }
     },
+    "31": {
+      "nombre": "Valle",
+      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/departamento_31.json",
+      "municipios": {
+        "31124": {
+          "nombre": "ZARZAL",
+          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/municipio_31124.json",
+          "zonas": {
+            "31124_Zona_99": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/zona_3112499/zona_3112499.json",
+              "puestos": {
+                "3112499_Puesto_15": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/zona_3112499/puesto_311249915/puesto_311249915.json",
+                  "mesas": {
+                    "311249915_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/zona_3112499/puesto_311249915/mesa_311249915001/mesa_311249915001.json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "40": {
       "nombre": "Arauca",
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/departamento_40.json",
