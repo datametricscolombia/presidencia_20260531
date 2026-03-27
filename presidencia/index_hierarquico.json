@@ -28,6 +28,31 @@
         }
       }
     },
+    "16": {
+      "nombre": "Bogotá",
+      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/departamento_16.json",
+      "municipios": {
+        "16001": {
+          "nombre": "",
+          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/municipio_16001.json",
+          "zonas": {
+            "16001_Zona_13": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/zona_1600113/zona_1600113.json",
+              "puestos": {
+                "1600113_Puesto_10": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/zona_1600113/puesto_160011310/puesto_160011310.json",
+                  "mesas": {
+                    "160011310_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/zona_1600113/puesto_160011310/mesa_160011310001/mesa_160011310001.json"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "40": {
       "nombre": "Arauca",
       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_40_Arauca/departamento_40.json",
