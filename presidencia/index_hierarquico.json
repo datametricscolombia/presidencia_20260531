@@ -44,6 +44,9 @@
                   "mesas": {
                     "030430203_Mesa_001": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/municipio_03043/zona_0304302/puesto_030430203/mesa_030430203001/mesa_030430203001.json"
+                    },
+                    "030430203_Mesa_002": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_03_Atlántico/municipio_03043/zona_0304302/puesto_030430203/mesa_030430203002/mesa_030430203002.json"
                     }
                   }
                 }
