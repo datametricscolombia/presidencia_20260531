@@ -327,18 +327,20 @@ function limpiarSelectsDesde(nivel) {
 // ================================
 document.getElementById("dep-select").addEventListener("change", (e) => {
 
-    llenarMunicipios(e.target.value);
-    limpiarResultados();
     limpiarSelectsDesde("dep-select");
+    limpiarResultados();
+
+    llenarMunicipios(e.target.value);
 });
 
 document.getElementById("mun-select").addEventListener("change", (e) => {
 
     const depKey = document.getElementById("dep-select").value;
 
-    llenarZonas(depKey, e.target.value);
-    limpiarResultados();
     limpiarSelectsDesde("mun-select");
+    limpiarResultados();
+
+    llenarZonas(depKey, e.target.value);
 });
 
 document.getElementById("zona-select").addEventListener("change", (e) => {
@@ -346,9 +348,10 @@ document.getElementById("zona-select").addEventListener("change", (e) => {
     const depKey = document.getElementById("dep-select").value;
     const munKey = document.getElementById("mun-select").value;
 
-    llenarPuestos(depKey, munKey, e.target.value);
-    limpiarResultados();
     limpiarSelectsDesde("zona-select");
+    limpiarResultados();
+
+    llenarPuestos(depKey, munKey, e.target.value);
 });
 
 document.getElementById("puesto-select").addEventListener("change", (e) => {
@@ -357,9 +360,10 @@ document.getElementById("puesto-select").addEventListener("change", (e) => {
     const munKey = document.getElementById("mun-select").value;
     const zonaKey = document.getElementById("zona-select").value;
 
-    llenarMesas(depKey, munKey, zonaKey, e.target.value);
-    limpiarResultados();
     limpiarSelectsDesde("puesto-select");
+    limpiarResultados();
+
+    llenarMesas(depKey, munKey, zonaKey, e.target.value);
 });
 
 document.getElementById("mesa-select").addEventListener("change", (e) => {
