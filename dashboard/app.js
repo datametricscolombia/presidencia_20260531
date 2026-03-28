@@ -295,6 +295,33 @@ async function cargarMesa(url) {
     breadcrumb.innerHTML = path.map(p => `<span>${p}</span>`).join(" > ");
 }
 
+function limpiarSelectsDesde(nivel) {
+
+    const orden = [
+        "dep-select",
+        "mun-select",
+        "zona-select",
+        "puesto-select",
+        "mesa-select"
+    ];
+
+    const textos = {
+        "dep-select": "Seleccione departamento",
+        "mun-select": "Seleccione municipio",
+        "zona-select": "Seleccione zona",
+        "puesto-select": "Seleccione puesto",
+        "mesa-select": "Seleccione mesa"
+    };
+
+    const startIndex = orden.indexOf(nivel);
+
+    for (let i = startIndex + 1; i < orden.length; i++) {
+
+        const select = document.getElementById(orden[i]);
+
+        select.innerHTML = `<option value="">${textos[orden[i]]}</option>`;
+    }
+}
 // ================================
 // EVENTOS
 // ================================
@@ -302,10 +329,7 @@ document.getElementById("dep-select").addEventListener("change", (e) => {
 
     llenarMunicipios(e.target.value);
     limpiarResultados();
-
-    document.getElementById("zona-select").innerHTML = '<option value="">Seleccione zona</option>';
-    document.getElementById("puesto-select").innerHTML = '<option value="">Seleccione puesto</option>';
-    document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
+    limpiarSelectsDesde("dep-select");
 });
 
 document.getElementById("mun-select").addEventListener("change", (e) => {
@@ -314,9 +338,7 @@ document.getElementById("mun-select").addEventListener("change", (e) => {
 
     llenarZonas(depKey, e.target.value);
     limpiarResultados();
-
-    document.getElementById("puesto-select").innerHTML = '<option value="">Seleccione puesto</option>';
-    document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
+    limpiarSelectsDesde("mun-select");
 });
 
 document.getElementById("zona-select").addEventListener("change", (e) => {
@@ -326,8 +348,7 @@ document.getElementById("zona-select").addEventListener("change", (e) => {
 
     llenarPuestos(depKey, munKey, e.target.value);
     limpiarResultados();
-
-    document.getElementById("mesa-select").innerHTML = '<option value="">Seleccione mesa</option>';
+    limpiarSelectsDesde("zona-select");
 });
 
 document.getElementById("puesto-select").addEventListener("change", (e) => {
@@ -338,6 +359,7 @@ document.getElementById("puesto-select").addEventListener("change", (e) => {
 
     llenarMesas(depKey, munKey, zonaKey, e.target.value);
     limpiarResultados();
+    limpiarSelectsDesde("puesto-select");
 });
 
 document.getElementById("mesa-select").addEventListener("change", (e) => {
