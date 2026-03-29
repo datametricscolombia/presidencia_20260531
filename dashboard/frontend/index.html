@@ -2,187 +2,154 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Presidencia</title>
+<title>Consulta Nacional</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background: #f5f5f5;
+body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+
+input, button, select {
+  padding: 8px;
+  margin: 5px;
 }
 
-h1 { margin-bottom: 10px; }
-
-.container {
-  display: flex;
-  gap: 20px;
-}
-
-.panel {
+table {
+  border-collapse: collapse;
+  margin-top: 20px;
   background: white;
-  padding: 15px;
-  border-radius: 8px;
-  width: 250px;
-  height: 500px;
-  overflow-y: auto;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.item {
-  padding: 6px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.item:hover {
-  background: #e6f0ff;
-}
-
-.selected {
-  background: #cce0ff;
-  font-weight: bold;
-}
-
-.header {
-  margin-bottom: 15px;
-}
-
-.stats {
-  margin-bottom: 15px;
-  font-size: 14px;
-}
-
-button {
-  margin-right: 10px;
+td, th {
+  border: 1px solid #ccc;
   padding: 6px 10px;
-  cursor: pointer;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Dashboard Presidencia</h1>
+<h2>Consulta Nacional por ID</h2>
 
-<div class="header">
-  <button onclick="loadData('testigos')">Testigos</button>
-  <button onclick="loadData('votantes')">Votantes</button>
-</div>
+<select id="tipo">
+  <option value="testigos">Testigos</option>
+  <option value="votantes">Votantes</option>
+</select>
 
-<div class="stats" id="stats"></div>
+<br>
 
-<div class="container">
-  <div class="panel" id="departamentos"></div>
-  <div class="panel" id="municipios"></div>
-  <div class="panel" id="zonas"></div>
-  <div class="panel" id="puestos"></div>
-  <div class="panel" id="registros"></div>
-</div>
+<input type="text" id="id_input" placeholder="Número de ID">
+<button onclick="buscar()">Buscar</button>
+
+<div id="resultado"></div>
 
 <script>
-const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531";
 
-let DATA = null;
-let CURRENT_TYPE = "testigos";
+const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
 
-async function loadData(tipo) {
-  CURRENT_TYPE = tipo;
+let CACHE = {
+  index: null,
+  lookups: {}
+};
 
-  const url = `${BASE_URL}/${tipo}/index_global.json`;
-  const res = await fetch(url);
-  DATA = await res.json();
-
-  document.getElementById("stats").innerHTML = `
-    <b>Total registros:</b> ${DATA.total_records} <br>
-    <b>Última actualización:</b> ${DATA.last_update}
-  `;
-
-  renderDepartamentos();
-  clearBelow("departamentos");
+// =========================
+// CACHE HELPERS
+// =========================
+function saveCache(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
-function clearBelow(level) {
-  const levels = ["departamentos", "municipios", "zonas", "puestos", "registros"];
-  const index = levels.indexOf(level);
+function loadCache(key) {
+  const d = localStorage.getItem(key);
+  return d ? JSON.parse(d) : null;
+}
 
-  for (let i = index + 1; i < levels.length; i++) {
-    document.getElementById(levels[i]).innerHTML = "";
+// =========================
+// LOAD INDEX (cache)
+// =========================
+async function loadIndex(tipo) {
+
+  const cacheKey = `index_${tipo}`;
+
+  let data = loadCache(cacheKey);
+
+  if (!data) {
+    const res = await fetch(`${BASE_URL}/${tipo}/index_global.json`);
+    data = await res.json();
+    saveCache(cacheKey, data);
+  }
+
+  CACHE.index = data;
+}
+
+// =========================
+// LOAD SHARD (lazy + cache)
+// =========================
+async function loadShard(tipo, shard) {
+
+  const key = `${tipo}_${shard}`;
+
+  if (CACHE.lookups[key]) return CACHE.lookups[key];
+
+  let data = loadCache(key);
+
+  if (!data) {
+    const res = await fetch(`${BASE_URL}/${tipo}/lookup/id_lookup_${shard}.json`);
+    data = await res.json();
+    saveCache(key, data);
+  }
+
+  CACHE.lookups[key] = data;
+  return data;
+}
+
+// =========================
+// BUSCAR
+// =========================
+async function buscar() {
+
+  const tipo = document.getElementById("tipo").value;
+  const id = document.getElementById("id_input").value.trim();
+
+  if (!id) return alert("Ingrese ID");
+
+  await loadIndex(tipo);
+
+  const shard = id.substring(0,2) || "00";
+
+  const lookup = await loadShard(tipo, shard);
+
+  const path = lookup[id];
+
+  if (!path) {
+    document.getElementById("resultado").innerHTML = "<b>No encontrado</b>";
+    return;
+  }
+
+  const url = `${BASE_URL}/${tipo}/${path}/${id}.json`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    render(data);
+  } catch {
+    document.getElementById("resultado").innerHTML = "<b>Error cargando</b>";
   }
 }
 
-function renderList(containerId, items, onClick) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = "";
+// =========================
+// RENDER
+// =========================
+function render(data) {
 
-  Object.entries(items).forEach(([key, val]) => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `${key} (${val.count || val.records?.length || 0})`;
+  let html = "<table>";
 
-    div.onclick = () => {
-      [...container.children].forEach(c => c.classList.remove("selected"));
-      div.classList.add("selected");
-      onClick(key, val);
-    };
+  for (let k in data) {
+    html += `<tr><th>${k}</th><td>${data[k]}</td></tr>`;
+  }
 
-    container.appendChild(div);
-  });
+  html += "</table>";
+
+  document.getElementById("resultado").innerHTML = html;
 }
-
-function renderDepartamentos() {
-  renderList("departamentos", DATA.departamentos, (dep, val) => {
-    renderMunicipios(val);
-    clearBelow("municipios");
-  });
-}
-
-function renderMunicipios(depNode) {
-  renderList("municipios", depNode.municipios, (mun, val) => {
-    renderZonas(val);
-    clearBelow("zonas");
-  });
-}
-
-function renderZonas(munNode) {
-  renderList("zonas", munNode.zonas, (zona, val) => {
-    renderPuestos(val);
-    clearBelow("puestos");
-  });
-}
-
-function renderPuestos(zonaNode) {
-  renderList("puestos", zonaNode.puestos, (puesto, val) => {
-    renderRegistros(val);
-  });
-}
-
-function renderRegistros(puestoNode) {
-  const container = document.getElementById("registros");
-  container.innerHTML = "";
-
-  puestoNode.records.forEach(id => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerText = id;
-
-    div.onclick = () => {
-      openJSON(puestoNode.path, id);
-    };
-
-    container.appendChild(div);
-  });
-}
-
-async function openJSON(path, id) {
-  const url = `${BASE_URL}/${CURRENT_TYPE}/${path}/${id}.json`;
-  const res = await fetch(url);
-  const data = await res.json();
-
-  alert(JSON.stringify(data, null, 2));
-}
-
-// Carga inicial
-loadData("testigos");
 
 </script>
 
