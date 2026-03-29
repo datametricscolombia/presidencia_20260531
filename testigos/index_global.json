@@ -1,43 +1,10 @@
 {
-  "last_update": "2026-03-29T11:43:19.006912",
-  "generated_at": "2026-03-29T11:43:19.006912",
-  "total_records": 8,
+  "last_update": "2026-03-29T16:23:19.187169",
+  "generated_at": "2026-03-29T16:23:19.187169",
+  "total_records": 6,
   "regiones": {
-    "Bogotá": {
-      "count": 2,
-      "departamentos": {
-        "16._BOGOTA_D.C": {
-          "count": 2,
-          "municipios": {
-            "001._BOGOTA_D.C": {
-              "count": 2,
-              "zonas": {
-                "03._SANTA_FE": {
-                  "count": 1,
-                  "puestos": {
-                    "09._LAS_CRUCES": {
-                      "count": 1,
-                      "path": "Bogotá/16._BOGOTA_D.C/001._BOGOTA_D.C/03._SANTA_FE/09._LAS_CRUCES"
-                    }
-                  }
-                },
-                "13._TEUSAQUILLO": {
-                  "count": 1,
-                  "puestos": {
-                    "10._COLEGIO_AMERICANO": {
-                      "count": 1,
-                      "path": "Bogotá/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/10._COLEGIO_AMERICANO"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Caribe": {
-      "count": 2,
+    "GLOBAL": {
+      "count": 6,
       "departamentos": {
         "05._BOLIVAR": {
           "count": 1,
@@ -50,7 +17,7 @@
                   "puestos": {
                     "03._IE_SOLEDAD_ACOSTA_DE_SAMPER": {
                       "count": 1,
-                      "path": "Caribe/05._BOLIVAR/001._CARTAGENA/18._ZONA_18/03._IE_SOLEDAD_ACOSTA_DE_SAMPER"
+                      "path": "GLOBAL/05._BOLIVAR/001._CARTAGENA/18._ZONA_18/03._IE_SOLEDAD_ACOSTA_DE_SAMPER"
                     }
                   }
                 }
@@ -58,54 +25,34 @@
             }
           }
         },
-        "13._CORDOBA": {
-          "count": 1,
+        "16._BOGOTA_D.C": {
+          "count": 2,
           "municipios": {
-            "058._TIERRALTA": {
-              "count": 1,
+            "001._BOGOTA_D.C": {
+              "count": 2,
               "zonas": {
-                "99._ZONA_99": {
+                "03._SANTA_FE": {
                   "count": 1,
                   "puestos": {
-                    "18._LOS_MORALES": {
+                    "09._LAS_CRUCES": {
                       "count": 1,
-                      "path": "Caribe/13._CORDOBA/058._TIERRALTA/99._ZONA_99/18._LOS_MORALES"
+                      "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/03._SANTA_FE/09._LAS_CRUCES"
+                    }
+                  }
+                },
+                "13._TEUSAQUILLO": {
+                  "count": 1,
+                  "puestos": {
+                    "10._COLEGIO_AMERICANO": {
+                      "count": 1,
+                      "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/10._COLEGIO_AMERICANO"
                     }
                   }
                 }
               }
             }
           }
-        }
-      }
-    },
-    "Centro Occidente": {
-      "count": 1,
-      "departamentos": {
-        "19._HUILA": {
-          "count": 1,
-          "municipios": {
-            "001._NEIVA": {
-              "count": 1,
-              "zonas": {
-                "04._ZONA_4": {
-                  "count": 1,
-                  "puestos": {
-                    "02._I.E._JOSE_EUSTACIO_RIVERA": {
-                      "count": 1,
-                      "path": "Centro Occidente/19._HUILA/001._NEIVA/04._ZONA_4/02._I.E._JOSE_EUSTACIO_RIVERA"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Exterior": {
-      "count": 3,
-      "departamentos": {
+        },
         "88._CONSULADOS": {
           "count": 3,
           "municipios": {
@@ -115,9 +62,9 @@
                 "15._ZONA_15": {
                   "count": 1,
                   "puestos": {
-                    "04._Stuttgart": {
+                    "04._STUTTGART": {
                       "count": 1,
-                      "path": "Exterior/88._CONSULADOS/120._ALEMANIA/15._ZONA_15/04._Stuttgart"
+                      "path": "GLOBAL/88._CONSULADOS/120._ALEMANIA/15._ZONA_15/04._STUTTGART"
                     }
                   }
                 }
@@ -129,9 +76,9 @@
                 "05._ZONA_5": {
                   "count": 1,
                   "puestos": {
-                    "05._Cordoba": {
+                    "05._CORDOBA": {
                       "count": 1,
-                      "path": "Exterior/88._CONSULADOS/155._ARGENTINA/05._ZONA_5/05._Cordoba"
+                      "path": "GLOBAL/88._CONSULADOS/155._ARGENTINA/05._ZONA_5/05._CORDOBA"
                     }
                   }
                 }
@@ -143,9 +90,9 @@
                 "35._ZONA_35": {
                   "count": 1,
                   "puestos": {
-                    "04._Belo_Horizonte": {
+                    "04._BELO_HORIZONTE": {
                       "count": 1,
-                      "path": "Exterior/88._CONSULADOS/220._BRASIL/35._ZONA_35/04._Belo_Horizonte"
+                      "path": "GLOBAL/88._CONSULADOS/220._BRASIL/35._ZONA_35/04._BELO_HORIZONTE"
                     }
                   }
                 }
