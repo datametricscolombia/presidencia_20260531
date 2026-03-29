@@ -7,7 +7,7 @@
 
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     margin: 0;
     padding: 16px;
     background: #f4f6f9;
@@ -22,39 +22,44 @@ h2 {
     text-align: center;
 }
 
-/* Buscador */
 .search-box {
     position: relative;
-    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
 }
 
 input {
-    width: 100%;
-    padding: 12px 40px 12px 12px;
-    font-size: 16px;
+    flex: 1;
+    padding: 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    box-sizing: border-box;
 }
 
-/* Botón limpiar */
+button {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
 .clear-btn {
     position: absolute;
-    right: 10px;
+    right: 110px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    font-size: 18px;
-    color: #999;
     display: none;
+    color: #999;
 }
 
-.clear-btn:hover {
-    color: #333;
-}
-
-/* Tabla */
 .table-container {
+    margin-top: 20px;
     overflow-x: auto;
 }
 
@@ -67,32 +72,16 @@ table {
 td {
     border: 1px solid #ddd;
     padding: 10px;
-    font-size: 14px;
-    word-break: break-word;
 }
 
-/* Estados */
 .loading {
     text-align: center;
-    color: #666;
+    margin-top: 10px;
 }
 
 .error {
     color: red;
     text-align: center;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    input {
-        font-size: 14px;
-        padding: 10px 36px 10px 10px;
-    }
-
-    td {
-        font-size: 13px;
-        padding: 8px;
-    }
 }
 </style>
 </head>
@@ -106,64 +95,83 @@ td {
 <div class="search-box">
     <input type="text" id="inputId" placeholder="Ingrese número de identificación">
     <span class="clear-btn" id="clearBtn">✕</span>
+    <button onclick="buscar()">Buscar</button>
 </div>
 
 <div id="status" class="loading"></div>
-
 <div id="resultado" class="table-container"></div>
 
 </div>
 
 <script>
-const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531";
+const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
 
 let idLookup = null;
 
 /* =========================
-   CARGA CON CACHE
+   CARGA CON CACHE ROBUSTA
 ========================= */
 async function cargarLookup() {
 
-    const cache = localStorage.getItem("id_lookup_cache");
-    const cacheTime = localStorage.getItem("id_lookup_time");
+    if (idLookup) return; // evita recargas
 
-    const now = Date.now();
-    const TTL = 1000 * 60 * 60; // 1 hora
+    const status = document.getElementById("status");
 
-    if (cache && cacheTime && (now - cacheTime < TTL)) {
-        idLookup = JSON.parse(cache);
-        return;
+    try {
+
+        const cache = localStorage.getItem("id_lookup_cache");
+        const cacheTime = parseInt(localStorage.getItem("id_lookup_time"));
+
+        const now = Date.now();
+        const TTL = 1000 * 60 * 60;
+
+        if (cache && cacheTime && (now - cacheTime < TTL)) {
+            idLookup = JSON.parse(cache);
+            return;
+        }
+
+        status.innerText = "Cargando índice...";
+
+        const res = await fetch(`${BASE_URL}/id_lookup.json`);
+
+        if (!res.ok) throw new Error("Error descargando índice");
+
+        idLookup = await res.json();
+
+        localStorage.setItem("id_lookup_cache", JSON.stringify(idLookup));
+        localStorage.setItem("id_lookup_time", now.toString());
+
+        status.innerText = "";
+
+    } catch (e) {
+        status.innerText = "";
+        document.getElementById("resultado").innerHTML =
+            "<p class='error'>Error cargando índice</p>";
+        console.error(e);
     }
-
-    document.getElementById("status").innerText = "Cargando índice...";
-
-    const res = await fetch(`${BASE_URL}/id_lookup.json`);
-    idLookup = await res.json();
-
-    localStorage.setItem("id_lookup_cache", JSON.stringify(idLookup));
-    localStorage.setItem("id_lookup_time", now);
-
-    document.getElementById("status").innerText = "";
 }
 
 /* =========================
-   BUSCAR POR ID
+   BUSCAR
 ========================= */
 async function buscar() {
 
     const input = document.getElementById("inputId");
     const clearBtn = document.getElementById("clearBtn");
+    const status = document.getElementById("status");
 
     const id = input.value.trim();
 
     clearBtn.style.display = id ? "block" : "none";
 
     if (!id) {
-        limpiarResultado();
+        limpiar();
         return;
     }
 
-    if (!idLookup) await cargarLookup();
+    await cargarLookup();
+
+    if (!idLookup) return;
 
     const path = idLookup[id];
 
@@ -173,28 +181,29 @@ async function buscar() {
         return;
     }
 
-    const url = `${BASE_URL}/${path}`;
-
-    document.getElementById("status").innerText = "Cargando datos...";
-
     try {
 
-        const res = await fetch(url);
+        status.innerText = "Cargando datos...";
+
+        const res = await fetch(`${BASE_URL}/${path}`);
+
+        if (!res.ok) throw new Error("Error JSON");
+
         const data = await res.json();
 
-        document.getElementById("status").innerText = "";
+        status.innerText = "";
 
         mostrarTabla(data);
 
     } catch (e) {
-        document.getElementById("status").innerText = "";
+        status.innerText = "";
         document.getElementById("resultado").innerHTML =
             "<p class='error'>Error cargando datos</p>";
     }
 }
 
 /* =========================
-   MOSTRAR TABLA
+   TABLA
 ========================= */
 function mostrarTabla(data) {
 
@@ -215,7 +224,7 @@ function mostrarTabla(data) {
 /* =========================
    LIMPIAR
 ========================= */
-function limpiarResultado() {
+function limpiar() {
     document.getElementById("resultado").innerHTML = "";
     document.getElementById("status").innerText = "";
 }
@@ -223,12 +232,15 @@ function limpiarResultado() {
 /* =========================
    EVENTOS
 ========================= */
-document.getElementById("inputId").addEventListener("input", buscar);
+document.getElementById("inputId").addEventListener("input", () => {
+    const val = document.getElementById("inputId").value;
+    document.getElementById("clearBtn").style.display = val ? "block" : "none";
+});
 
 document.getElementById("clearBtn").addEventListener("click", () => {
     document.getElementById("inputId").value = "";
     document.getElementById("clearBtn").style.display = "none";
-    limpiarResultado();
+    limpiar();
 });
 
 /* =========================
