@@ -2,154 +2,239 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Consulta Nacional</title>
 
 <style>
-body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 16px;
+    background: #f4f6f9;
+}
 
-input, button, select {
-  padding: 8px;
-  margin: 5px;
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+/* Buscador */
+.search-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Botón limpiar */
+.clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+    display: none;
+}
+
+.clear-btn:hover {
+    color: #333;
+}
+
+/* Tabla */
+.table-container {
+    overflow-x: auto;
 }
 
 table {
-  border-collapse: collapse;
-  margin-top: 20px;
-  background: white;
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
 }
 
-td, th {
-  border: 1px solid #ccc;
-  padding: 6px 10px;
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+/* Estados */
+.loading {
+    text-align: center;
+    color: #666;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    input {
+        font-size: 14px;
+        padding: 10px 36px 10px 10px;
+    }
+
+    td {
+        font-size: 13px;
+        padding: 8px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h2>Consulta Nacional por ID</h2>
+<div class="container">
 
-<select id="tipo">
-  <option value="testigos">Testigos</option>
-  <option value="votantes">Votantes</option>
-</select>
+<h2>Consulta por Número de ID</h2>
 
-<br>
+<div class="search-box">
+    <input type="text" id="inputId" placeholder="Ingrese número de identificación">
+    <span class="clear-btn" id="clearBtn">✕</span>
+</div>
 
-<input type="text" id="id_input" placeholder="Número de ID">
-<button onclick="buscar()">Buscar</button>
+<div id="status" class="loading"></div>
 
-<div id="resultado"></div>
+<div id="resultado" class="table-container"></div>
+
+</div>
 
 <script>
-
 const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531";
 
-let CACHE = {
-  index: null,
-  lookups: {}
-};
+let idLookup = null;
 
-// =========================
-// CACHE HELPERS
-// =========================
-function saveCache(key, data) {
-  localStorage.setItem(key, JSON.stringify(data));
+/* =========================
+   CARGA CON CACHE
+========================= */
+async function cargarLookup() {
+
+    const cache = localStorage.getItem("id_lookup_cache");
+    const cacheTime = localStorage.getItem("id_lookup_time");
+
+    const now = Date.now();
+    const TTL = 1000 * 60 * 60; // 1 hora
+
+    if (cache && cacheTime && (now - cacheTime < TTL)) {
+        idLookup = JSON.parse(cache);
+        return;
+    }
+
+    document.getElementById("status").innerText = "Cargando índice...";
+
+    const res = await fetch(`${BASE_URL}/id_lookup.json`);
+    idLookup = await res.json();
+
+    localStorage.setItem("id_lookup_cache", JSON.stringify(idLookup));
+    localStorage.setItem("id_lookup_time", now);
+
+    document.getElementById("status").innerText = "";
 }
 
-function loadCache(key) {
-  const d = localStorage.getItem(key);
-  return d ? JSON.parse(d) : null;
-}
-
-// =========================
-// LOAD INDEX (cache)
-// =========================
-async function loadIndex(tipo) {
-
-  const cacheKey = `index_${tipo}`;
-
-  let data = loadCache(cacheKey);
-
-  if (!data) {
-    const res = await fetch(`${BASE_URL}/${tipo}/index_global.json`);
-    data = await res.json();
-    saveCache(cacheKey, data);
-  }
-
-  CACHE.index = data;
-}
-
-// =========================
-// LOAD SHARD (lazy + cache)
-// =========================
-async function loadShard(tipo, shard) {
-
-  const key = `${tipo}_${shard}`;
-
-  if (CACHE.lookups[key]) return CACHE.lookups[key];
-
-  let data = loadCache(key);
-
-  if (!data) {
-    const res = await fetch(`${BASE_URL}/${tipo}/lookup/id_lookup_${shard}.json`);
-    data = await res.json();
-    saveCache(key, data);
-  }
-
-  CACHE.lookups[key] = data;
-  return data;
-}
-
-// =========================
-// BUSCAR
-// =========================
+/* =========================
+   BUSCAR POR ID
+========================= */
 async function buscar() {
 
-  const tipo = document.getElementById("tipo").value;
-  const id = document.getElementById("id_input").value.trim();
+    const input = document.getElementById("inputId");
+    const clearBtn = document.getElementById("clearBtn");
 
-  if (!id) return alert("Ingrese ID");
+    const id = input.value.trim();
 
-  await loadIndex(tipo);
+    clearBtn.style.display = id ? "block" : "none";
 
-  const shard = id.substring(0,2) || "00";
+    if (!id) {
+        limpiarResultado();
+        return;
+    }
 
-  const lookup = await loadShard(tipo, shard);
+    if (!idLookup) await cargarLookup();
 
-  const path = lookup[id];
+    const path = idLookup[id];
 
-  if (!path) {
-    document.getElementById("resultado").innerHTML = "<b>No encontrado</b>";
-    return;
-  }
+    if (!path) {
+        document.getElementById("resultado").innerHTML =
+            "<p class='error'>No encontrado</p>";
+        return;
+    }
 
-  const url = `${BASE_URL}/${tipo}/${path}/${id}.json`;
+    const url = `${BASE_URL}/${path}`;
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    render(data);
-  } catch {
-    document.getElementById("resultado").innerHTML = "<b>Error cargando</b>";
-  }
+    document.getElementById("status").innerText = "Cargando datos...";
+
+    try {
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        document.getElementById("status").innerText = "";
+
+        mostrarTabla(data);
+
+    } catch (e) {
+        document.getElementById("status").innerText = "";
+        document.getElementById("resultado").innerHTML =
+            "<p class='error'>Error cargando datos</p>";
+    }
 }
 
-// =========================
-// RENDER
-// =========================
-function render(data) {
+/* =========================
+   MOSTRAR TABLA
+========================= */
+function mostrarTabla(data) {
 
-  let html = "<table>";
+    let html = "<table>";
 
-  for (let k in data) {
-    html += `<tr><th>${k}</th><td>${data[k]}</td></tr>`;
-  }
+    for (let key in data) {
+        html += `<tr>
+                    <td><b>${key}</b></td>
+                    <td>${data[key]}</td>
+                 </tr>`;
+    }
 
-  html += "</table>";
+    html += "</table>";
 
-  document.getElementById("resultado").innerHTML = html;
+    document.getElementById("resultado").innerHTML = html;
 }
+
+/* =========================
+   LIMPIAR
+========================= */
+function limpiarResultado() {
+    document.getElementById("resultado").innerHTML = "";
+    document.getElementById("status").innerText = "";
+}
+
+/* =========================
+   EVENTOS
+========================= */
+document.getElementById("inputId").addEventListener("input", buscar);
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+    document.getElementById("inputId").value = "";
+    document.getElementById("clearBtn").style.display = "none";
+    limpiarResultado();
+});
+
+/* =========================
+   INIT
+========================= */
+cargarLookup();
 
 </script>
 
