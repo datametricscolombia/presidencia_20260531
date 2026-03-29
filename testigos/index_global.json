@@ -1,0 +1,135 @@
+{
+  "last_update": "2026-03-28T22:59:22.117922",
+  "total_records": 0,
+  "departamentos": {
+    "Bogotá": {
+      "count": 0,
+      "last_update": "2026-03-28T22:59:22.118429",
+      "municipios": {
+        "16._BOGOTA_D.C": {
+          "count": 0,
+          "zonas": {
+            "001._BOGOTA_D.C": {
+              "count": 0,
+              "puestos": {
+                "03._SANTA_FE": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Bogotá/16._BOGOTA_D.C/001._BOGOTA_D.C/03._SANTA_FE"
+                },
+                "13._TEUSAQUILLO": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Bogotá/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Caribe": {
+      "count": 0,
+      "last_update": "2026-03-28T22:59:22.118429",
+      "municipios": {
+        "05._BOLIVAR": {
+          "count": 0,
+          "zonas": {
+            "001._CARTAGENA": {
+              "count": 0,
+              "puestos": {
+                "18._ZONA_18": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Caribe/05._BOLIVAR/001._CARTAGENA/18._ZONA_18"
+                }
+              }
+            }
+          }
+        },
+        "13._CORDOBA": {
+          "count": 0,
+          "zonas": {
+            "058._TIERRALTA": {
+              "count": 0,
+              "puestos": {
+                "99._ZONA_99": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Caribe/13._CORDOBA/058._TIERRALTA/99._ZONA_99"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Centro Occidente": {
+      "count": 0,
+      "last_update": "2026-03-28T22:59:22.119455",
+      "municipios": {
+        "19._HUILA": {
+          "count": 0,
+          "zonas": {
+            "001._NEIVA": {
+              "count": 0,
+              "puestos": {
+                "04._ZONA_4": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Centro Occidente/19._HUILA/001._NEIVA/04._ZONA_4"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Exterior": {
+      "count": 0,
+      "last_update": "2026-03-28T22:59:22.119979",
+      "municipios": {
+        "88._CONSULADOS": {
+          "count": 0,
+          "zonas": {
+            "120._ALEMANIA": {
+              "count": 0,
+              "puestos": {
+                "15._ZONA_15": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Exterior/88._CONSULADOS/120._ALEMANIA/15._ZONA_15"
+                }
+              }
+            },
+            "155._ARGENTINA": {
+              "count": 0,
+              "puestos": {
+                "05._ZONA_5": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Exterior/88._CONSULADOS/155._ARGENTINA/05._ZONA_5"
+                }
+              }
+            },
+            "220._BRASIL": {
+              "count": 0,
+              "puestos": {
+                "35._ZONA_35": {
+                  "count": 0,
+                  "records": [],
+                  "path": "Exterior/88._CONSULADOS/220._BRASIL/35._ZONA_35"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Pacífico": {
+      "count": 0,
+      "last_update": "2026-03-28T22:59:22.120502",
+      "municipios": {}
+    }
+  }
+}
