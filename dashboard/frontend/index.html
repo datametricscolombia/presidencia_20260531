@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Presidencia</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #f5f5f5;
+}
+
+h1 { margin-bottom: 10px; }
+
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.panel {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  width: 250px;
+  height: 500px;
+  overflow-y: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.item {
+  padding: 6px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.item:hover {
+  background: #e6f0ff;
+}
+
+.selected {
+  background: #cce0ff;
+  font-weight: bold;
+}
+
+.header {
+  margin-bottom: 15px;
+}
+
+.stats {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+button {
+  margin-right: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Dashboard Presidencia</h1>
+
+<div class="header">
+  <button onclick="loadData('testigos')">Testigos</button>
+  <button onclick="loadData('votantes')">Votantes</button>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="container">
+  <div class="panel" id="departamentos"></div>
+  <div class="panel" id="municipios"></div>
+  <div class="panel" id="zonas"></div>
+  <div class="panel" id="puestos"></div>
+  <div class="panel" id="registros"></div>
+</div>
+
+<script>
+const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
+
+let DATA = null;
+let CURRENT_TYPE = "testigos";
+
+async function loadData(tipo) {
+  CURRENT_TYPE = tipo;
+
+  const url = `${BASE_URL}/${tipo}/index_global.json`;
+  const res = await fetch(url);
+  DATA = await res.json();
+
+  document.getElementById("stats").innerHTML = `
+    <b>Total registros:</b> ${DATA.total_records} <br>
+    <b>Última actualización:</b> ${DATA.last_update}
+  `;
+
+  renderDepartamentos();
+  clearBelow("departamentos");
+}
+
+function clearBelow(level) {
+  const levels = ["departamentos", "municipios", "zonas", "puestos", "registros"];
+  const index = levels.indexOf(level);
+
+  for (let i = index + 1; i < levels.length; i++) {
+    document.getElementById(levels[i]).innerHTML = "";
+  }
+}
+
+function renderList(containerId, items, onClick) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+
+  Object.entries(items).forEach(([key, val]) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `${key} (${val.count || val.records?.length || 0})`;
+
+    div.onclick = () => {
+      [...container.children].forEach(c => c.classList.remove("selected"));
+      div.classList.add("selected");
+      onClick(key, val);
+    };
+
+    container.appendChild(div);
+  });
+}
+
+function renderDepartamentos() {
+  renderList("departamentos", DATA.departamentos, (dep, val) => {
+    renderMunicipios(val);
+    clearBelow("municipios");
+  });
+}
+
+function renderMunicipios(depNode) {
+  renderList("municipios", depNode.municipios, (mun, val) => {
+    renderZonas(val);
+    clearBelow("zonas");
+  });
+}
+
+function renderZonas(munNode) {
+  renderList("zonas", munNode.zonas, (zona, val) => {
+    renderPuestos(val);
+    clearBelow("puestos");
+  });
+}
+
+function renderPuestos(zonaNode) {
+  renderList("puestos", zonaNode.puestos, (puesto, val) => {
+    renderRegistros(val);
+  });
+}
+
+function renderRegistros(puestoNode) {
+  const container = document.getElementById("registros");
+  container.innerHTML = "";
+
+  puestoNode.records.forEach(id => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerText = id;
+
+    div.onclick = () => {
+      openJSON(puestoNode.path, id);
+    };
+
+    container.appendChild(div);
+  });
+}
+
+async function openJSON(path, id) {
+  const url = `${BASE_URL}/${CURRENT_TYPE}/${path}/${id}.json`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  alert(JSON.stringify(data, null, 2));
+}
+
+// Carga inicial
+loadData("testigos");
+
+</script>
+
+</body>
+</html>
