@@ -1,9 +1,9 @@
 {
-  "last_update": "2026-03-29T11:43:19.031730",
-  "generated_at": "2026-03-29T11:43:19.031730",
-  "total_records": 2,
+  "last_update": "2026-03-29T16:23:19.195666",
+  "generated_at": "2026-03-29T16:23:19.195666",
+  "total_records": 1,
   "regiones": {
-    "Caribe": {
+    "GLOBAL": {
       "count": 1,
       "departamentos": {
         "03._ATLANTICO": {
@@ -17,31 +17,7 @@
                   "puestos": {
                     "00._PUESTO_CABECERA_MUNICIPAL": {
                       "count": 1,
-                      "path": "Caribe/03._ATLANTICO/061._USIACURI/00._ZONA_0/00._PUESTO_CABECERA_MUNICIPAL"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Pacífico": {
-      "count": 1,
-      "departamentos": {
-        "11._CAUCA": {
-          "count": 1,
-          "municipios": {
-            "052._MORALES": {
-              "count": 1,
-              "zonas": {
-                "99._ZONA_99": {
-                  "count": 1,
-                  "puestos": {
-                    "01._CARPINTERO": {
-                      "count": 1,
-                      "path": "Pacífico/11._CAUCA/052._MORALES/99._ZONA_99/01._CARPINTERO"
+                      "path": "GLOBAL/03._ATLANTICO/061._USIACURI/00._ZONA_0/00._PUESTO_CABECERA_MUNICIPAL"
                     }
                   }
                 }
