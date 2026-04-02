@@ -1,10 +1,10 @@
 {
-  "last_update": "2026-04-01T20:59:48.721979",
-  "generated_at": "2026-04-01T20:59:48.721979",
-  "total_records": 7,
+  "last_update": "2026-04-01T21:04:03.773664",
+  "generated_at": "2026-04-01T21:04:03.773664",
+  "total_records": 6,
   "regiones": {
     "GLOBAL": {
-      "count": 7,
+      "count": 6,
       "departamentos": {
         "05._BOLIVAR": {
           "count": 1,
@@ -18,25 +18,6 @@
                     "03._IE_SOLEDAD_ACOSTA_DE_SAMPER": {
                       "count": 1,
                       "path": "GLOBAL/05._BOLIVAR/001._CARTAGENA/18._ZONA_18/03._IE_SOLEDAD_ACOSTA_DE_SAMPER"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "13._CORDOBA": {
-          "count": 1,
-          "municipios": {
-            "058._TIERRALTA": {
-              "count": 1,
-              "zonas": {
-                "99._ZONA_99": {
-                  "count": 1,
-                  "puestos": {
-                    "18._LOS_MORALES": {
-                      "count": 1,
-                      "path": "GLOBAL/13._CORDOBA/058._TIERRALTA/99._ZONA_99/18._LOS_MORALES"
                     }
                   }
                 }
