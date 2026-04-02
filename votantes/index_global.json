@@ -1,10 +1,10 @@
 {
-  "last_update": "2026-04-01T20:21:30.468643",
-  "generated_at": "2026-04-01T20:21:30.468643",
-  "total_records": 2,
+  "last_update": "2026-04-01T20:28:02.050411",
+  "generated_at": "2026-04-01T20:28:02.050411",
+  "total_records": 3,
   "regiones": {
     "GLOBAL": {
-      "count": 2,
+      "count": 3,
       "departamentos": {
         "03._ATLANTICO": {
           "count": 1,
@@ -26,16 +26,16 @@
           }
         },
         "13._CORDOBA": {
-          "count": 1,
+          "count": 2,
           "municipios": {
             "058._TIERRALTA": {
-              "count": 1,
+              "count": 2,
               "zonas": {
                 "99._ZONA_99": {
-                  "count": 1,
+                  "count": 2,
                   "puestos": {
                     "18._LOS_MORALES": {
-                      "count": 1,
+                      "count": 2,
                       "path": "GLOBAL/13._CORDOBA/058._TIERRALTA/99._ZONA_99/18._LOS_MORALES"
                     }
                   }
