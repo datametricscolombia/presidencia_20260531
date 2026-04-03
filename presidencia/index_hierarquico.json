@@ -11,6 +11,19 @@
           "nombre": "MEDELLIN",
           "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/municipio_01001.json",
           "zonas": {
+            "01001_Zona_01": {
+              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100101/zona_0100101.json",
+              "puestos": {
+                "0100101_Puesto_01": {
+                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100101/puesto_010010101/puesto_010010101.json",
+                  "mesas": {
+                    "010010101_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100101/puesto_010010101/mesa_010010101001/mesa_010010101001.json"
+                    }
+                  }
+                }
+              }
+            },
             "01001_Zona_10": {
               "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_01_Antioquia/municipio_01001/zona_0100110/zona_0100110.json",
               "puestos": {
