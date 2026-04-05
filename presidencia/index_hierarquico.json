@@ -83,14 +83,6 @@
             "05127_Zona_99": {
               "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/zona_0512799.json",
               "puestos": {
-                "0512799_Puesto_01": {
-                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279901/puesto_051279901.json",
-                  "mesas": {
-                    "051279901_Mesa_001": {
-                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279901/mesa_051279901001/mesa_051279901001.json"
-                    }
-                  }
-                },
                 "0512799_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_05_Bolívar/municipio_05127/zona_0512799/puesto_051279902/puesto_051279902.json",
                   "mesas": {
@@ -119,36 +111,8 @@
                 "1600113_Puesto_10": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/zona_1600113/puesto_160011310/puesto_160011310.json",
                   "mesas": {
-                    "160011310_Mesa_005": {
-                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/zona_1600113/puesto_160011310/mesa_160011310005/mesa_160011310005.json"
-                    },
                     "160011310_Mesa_006": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_16_Bogotá/municipio_16001/zona_1600113/puesto_160011310/mesa_160011310006/mesa_160011310006.json"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "31": {
-      "nombre": "Valle",
-      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/departamento_31.json",
-      "municipios": {
-        "31124": {
-          "nombre": "ZARZAL",
-          "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/municipio_31124.json",
-          "zonas": {
-            "31124_Zona_99": {
-              "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/zona_3112499/zona_3112499.json",
-              "puestos": {
-                "3112499_Puesto_15": {
-                  "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/zona_3112499/puesto_311249915/puesto_311249915.json",
-                  "mesas": {
-                    "311249915_Mesa_001": {
-                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_31_Valle/municipio_31124/zona_3112499/puesto_311249915/mesa_311249915001/mesa_311249915001.json"
                     }
                   }
                 }
@@ -197,9 +161,6 @@
                 "6000102_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/puesto_600010202.json",
                   "mesas": {
-                    "600010202_Mesa_001": {
-                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/mesa_600010202001/mesa_600010202001.json"
-                    },
                     "600010202_Mesa_002": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/mesa_600010202002/mesa_600010202002.json"
                     },
