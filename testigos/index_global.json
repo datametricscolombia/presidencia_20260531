@@ -1,10 +1,10 @@
 {
-  "last_update": "2026-04-08T19:51:52.704355",
-  "generated_at": "2026-04-08T19:51:52.704355",
-  "total_records": 8,
+  "last_update": "2026-04-09T21:19:46.127035",
+  "generated_at": "2026-04-09T21:19:46.127035",
+  "total_records": 9,
   "regiones": {
     "GLOBAL": {
-      "count": 8,
+      "count": 9,
       "departamentos": {
         "05._BOLIVAR": {
           "count": 1,
@@ -26,10 +26,10 @@
           }
         },
         "16._BOGOTA_D.C": {
-          "count": 4,
+          "count": 5,
           "municipios": {
             "001._BOGOTA_D.C": {
-              "count": 4,
+              "count": 5,
               "zonas": {
                 "03._SANTA_FE": {
                   "count": 1,
@@ -41,7 +41,7 @@
                   }
                 },
                 "13._TEUSAQUILLO": {
-                  "count": 3,
+                  "count": 4,
                   "puestos": {
                     "02._SAN_LUIS": {
                       "count": 1,
@@ -54,6 +54,10 @@
                     "10._COLEGIO_AMERICANO": {
                       "count": 1,
                       "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/10._COLEGIO_AMERICANO"
+                    },
+                    "22._LICEO_PARROOUIAL_SARA_ZAPATA": {
+                      "count": 1,
+                      "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/22._LICEO_PARROOUIAL_SARA_ZAPATA"
                     }
                   }
                 }
