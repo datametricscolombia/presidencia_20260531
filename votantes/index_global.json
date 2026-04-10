@@ -1,49 +1,11 @@
 {
-  "last_update": "2026-04-10T07:59:15.921963",
-  "generated_at": "2026-04-10T07:59:15.921963",
-  "total_records": 3,
+  "last_update": "2026-04-10T08:03:56.208061",
+  "generated_at": "2026-04-10T08:03:56.208061",
+  "total_records": 1,
   "regiones": {
     "GLOBAL": {
-      "count": 3,
+      "count": 1,
       "departamentos": {
-        "03._ATLANTICO": {
-          "count": 1,
-          "municipios": {
-            "061._USIACURI": {
-              "count": 1,
-              "zonas": {
-                "00._ZONA_0": {
-                  "count": 1,
-                  "puestos": {
-                    "00._PUESTO_CABECERA_MUNICIPAL": {
-                      "count": 1,
-                      "path": "GLOBAL/03._ATLANTICO/061._USIACURI/00._ZONA_0/00._PUESTO_CABECERA_MUNICIPAL"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "11._CAUCA": {
-          "count": 1,
-          "municipios": {
-            "052._MORALES": {
-              "count": 1,
-              "zonas": {
-                "99._ZONA_99": {
-                  "count": 1,
-                  "puestos": {
-                    "01._CARPINTERO": {
-                      "count": 1,
-                      "path": "GLOBAL/11._CAUCA/052._MORALES/99._ZONA_99/01._CARPINTERO"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "13._CORDOBA": {
           "count": 1,
           "municipios": {
