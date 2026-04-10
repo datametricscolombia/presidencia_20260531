@@ -1,110 +1,27 @@
 {
-  "last_update": "2026-04-10T07:59:15.908954",
-  "generated_at": "2026-04-10T07:59:15.908954",
-  "total_records": 9,
+  "last_update": "2026-04-10T08:03:56.202762",
+  "generated_at": "2026-04-10T08:03:56.202762",
+  "total_records": 2,
   "regiones": {
     "GLOBAL": {
-      "count": 9,
+      "count": 2,
       "departamentos": {
-        "05._BOLIVAR": {
-          "count": 1,
-          "municipios": {
-            "001._CARTAGENA": {
-              "count": 1,
-              "zonas": {
-                "18._ZONA_18": {
-                  "count": 1,
-                  "puestos": {
-                    "03._IE_SOLEDAD_ACOSTA_DE_SAMPER": {
-                      "count": 1,
-                      "path": "GLOBAL/05._BOLIVAR/001._CARTAGENA/18._ZONA_18/03._IE_SOLEDAD_ACOSTA_DE_SAMPER"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         "16._BOGOTA_D.C": {
-          "count": 5,
+          "count": 2,
           "municipios": {
             "001._BOGOTA_D.C": {
-              "count": 5,
+              "count": 2,
               "zonas": {
-                "03._SANTA_FE": {
-                  "count": 1,
-                  "puestos": {
-                    "09._LAS_CRUCES": {
-                      "count": 1,
-                      "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/03._SANTA_FE/09._LAS_CRUCES"
-                    }
-                  }
-                },
                 "13._TEUSAQUILLO": {
-                  "count": 4,
+                  "count": 2,
                   "puestos": {
-                    "02._SAN_LUIS": {
-                      "count": 1,
-                      "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/02._SAN_LUIS"
-                    },
                     "09._PALERMO": {
                       "count": 1,
                       "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/09._PALERMO"
                     },
-                    "10._COLEGIO_AMERICANO": {
-                      "count": 1,
-                      "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/10._COLEGIO_AMERICANO"
-                    },
                     "22._LICEO_PARROOUIAL_SARA_ZAPATA": {
                       "count": 1,
                       "path": "GLOBAL/16._BOGOTA_D.C/001._BOGOTA_D.C/13._TEUSAQUILLO/22._LICEO_PARROOUIAL_SARA_ZAPATA"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "88._CONSULADOS": {
-          "count": 3,
-          "municipios": {
-            "120._ALEMANIA": {
-              "count": 1,
-              "zonas": {
-                "15._ZONA_15": {
-                  "count": 1,
-                  "puestos": {
-                    "04._STUTTGART": {
-                      "count": 1,
-                      "path": "GLOBAL/88._CONSULADOS/120._ALEMANIA/15._ZONA_15/04._STUTTGART"
-                    }
-                  }
-                }
-              }
-            },
-            "155._ARGENTINA": {
-              "count": 1,
-              "zonas": {
-                "05._ZONA_5": {
-                  "count": 1,
-                  "puestos": {
-                    "05._CORDOBA": {
-                      "count": 1,
-                      "path": "GLOBAL/88._CONSULADOS/155._ARGENTINA/05._ZONA_5/05._CORDOBA"
-                    }
-                  }
-                }
-              }
-            },
-            "220._BRASIL": {
-              "count": 1,
-              "zonas": {
-                "35._ZONA_35": {
-                  "count": 1,
-                  "puestos": {
-                    "04._BELO_HORIZONTE": {
-                      "count": 1,
-                      "path": "GLOBAL/88._CONSULADOS/220._BRASIL/35._ZONA_35/04._BELO_HORIZONTE"
                     }
                   }
                 }
