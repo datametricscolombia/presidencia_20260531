@@ -1,10 +1,10 @@
 {
-  "last_update": "2026-04-09T21:19:46.137247",
-  "generated_at": "2026-04-09T21:19:46.137247",
-  "total_records": 2,
+  "last_update": "2026-04-10T07:59:15.921963",
+  "generated_at": "2026-04-10T07:59:15.921963",
+  "total_records": 3,
   "regiones": {
     "GLOBAL": {
-      "count": 2,
+      "count": 3,
       "departamentos": {
         "03._ATLANTICO": {
           "count": 1,
@@ -18,6 +18,25 @@
                     "00._PUESTO_CABECERA_MUNICIPAL": {
                       "count": 1,
                       "path": "GLOBAL/03._ATLANTICO/061._USIACURI/00._ZONA_0/00._PUESTO_CABECERA_MUNICIPAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "11._CAUCA": {
+          "count": 1,
+          "municipios": {
+            "052._MORALES": {
+              "count": 1,
+              "zonas": {
+                "99._ZONA_99": {
+                  "count": 1,
+                  "puestos": {
+                    "01._CARPINTERO": {
+                      "count": 1,
+                      "path": "GLOBAL/11._CAUCA/052._MORALES/99._ZONA_99/01._CARPINTERO"
                     }
                   }
                 }

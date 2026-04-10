@@ -1,0 +1,16 @@
+{
+  "tipo_id": "C.C.",
+  "numero_id": "456123789",
+  "primer_nombre": "CARLOS",
+  "segundo_nombre": "CAMILO",
+  "primer_apellido": "CORTES",
+  "segundo_apellido": "CUENCA",
+  "correo": "c@c.com",
+  "telefono": "573*******89",
+  "departamento": "11. CAUCA",
+  "municipio": "052. MORALES",
+  "zona": "99. ZONA 99",
+  "puesto": "01. CARPINTERO",
+  "rol": "Solamente Votante",
+  "_hash": "3ed4591a52b4a27965d3e8669981bc28"
+}
