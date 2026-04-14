@@ -208,9 +208,13 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 
     puesto.mesas.forEach((mesa_id) => {
 
+        // 👇 extraer los últimos 3 dígitos como número de mesa
+        const numeroMesa = mesa_id.slice(-3); // "001", "027", etc.
+
         const option = document.createElement("option");
-        option.value = mesa_id;
-        option.textContent = mesa_id;
+        option.value = mesa_id; // se mantiene el código completo para backend
+
+        option.textContent = `Mesa ${numeroMesa}`; // 👈 UI corregida
 
         mesaSelect.appendChild(option);
     });
