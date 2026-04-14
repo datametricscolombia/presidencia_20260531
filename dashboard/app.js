@@ -335,7 +335,7 @@ function renderImagen(url) {
     container.style.display = "block";
     btn.style.display = "block";
 
-    // limpiar eventos previos (CRÍTICO en WebView)
+    // limpiar eventos previos
     btn.replaceWith(btn.cloneNode(true));
     const newBtn = document.getElementById("btn-ver-imagen");
 
@@ -344,25 +344,37 @@ function renderImagen(url) {
 
     newBtn.addEventListener("click", () => {
 
-        // 🔥 Mostrar modal primero (UX)
         modal.style.display = "flex";
-
-        // 🔥 Reset visual
+        modalImg.style.display = "none";
         modalImg.style.transform = "scale(1)";
         scale = 1;
 
-        // 🔥 IMPORTANTE: esperar carga real
+        // limpiar handlers anteriores
+        modalImg.onload = null;
+        modalImg.onerror = null;
+
+        // 🔥 método robusto
         modalImg.onload = () => {
-            modalImg.style.display = "block";
+
+            // validar que realmente cargó
+            if (modalImg.complete && modalImg.naturalWidth > 0) {
+                modalImg.style.display = "block";
+            } else {
+                fallback();
+            }
         };
 
-        modalImg.onerror = () => {
-            console.error("Error cargando imagen:", url);
-            modal.style.display = "none";
-            alert("No se pudo cargar la imagen");
-        };
+        modalImg.onerror = fallback;
 
         modalImg.src = url;
+
+        // 🔥 fallback si Google bloquea
+        function fallback() {
+            modal.style.display = "none";
+
+            // abrir como hacía el código antiguo (100% confiable)
+            window.open(url, "_blank");
+        }
     });
 
     // cerrar modal
@@ -375,7 +387,7 @@ function renderImagen(url) {
     };
 
     // =========================
-    // ZOOM SCROLL (desktop)
+    // ZOOM SCROLL
     // =========================
     modalImg.onwheel = (e) => {
         e.preventDefault();
@@ -387,7 +399,7 @@ function renderImagen(url) {
     };
 
     // =========================
-    // ZOOM TÁCTIL (WebView)
+    // ZOOM TÁCTIL
     // =========================
     modalImg.addEventListener("touchmove", (e) => {
 
