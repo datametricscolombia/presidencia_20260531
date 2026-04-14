@@ -329,7 +329,6 @@ function renderImagen(url) {
 
     if (!url) {
         container.style.display = "none";
-        btn.style.display = "none";
         return;
     }
 
@@ -340,57 +339,10 @@ function renderImagen(url) {
     btn.replaceWith(btn.cloneNode(true));
     const newBtn = document.getElementById("btn-ver-imagen");
 
+    // comportamiento tipo código antiguo (100% confiable)
     newBtn.addEventListener("click", () => {
-
-        // crear overlay full-screen controlado
-        const overlay = document.createElement("div");
-        overlay.id = "img-overlay";
-        overlay.style.position = "fixed";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100vw";
-        overlay.style.height = "100vh";
-        overlay.style.background = "rgba(0,0,0,0.9)";
-        overlay.style.display = "flex";
-        overlay.style.alignItems = "center";
-        overlay.style.justifyContent = "center";
-        overlay.style.zIndex = "9999";
-
-        const img = document.createElement("img");
-        img.src = url;
-        img.style.maxWidth = "95%";
-        img.style.maxHeight = "95%";
-        img.style.cursor = "zoom-out";
-
-        overlay.appendChild(img);
-        document.body.appendChild(overlay);
-
-        // bloquear scroll
-        document.body.style.overflow = "hidden";
-
-        // cerrar al click
-        overlay.addEventListener("click", cerrarImagen);
+        window.open(url, "_blank");
     });
-}
-
-function cerrarImagen() {
-
-    const overlay = document.getElementById("img-overlay");
-
-    if (overlay) overlay.remove();
-
-    // restaurar scroll
-    document.body.style.overflow = "auto";
-
-    // 🔥 RESTAURAR UI PRINCIPAL (CRÍTICO)
-    const table = document.getElementById("results-table");
-    if (table) table.style.display = "table";
-
-    const totalDiv = document.getElementById("total-votos");
-    if (totalDiv) totalDiv.style.display = "block";
-
-    const btn = document.getElementById("btn-ver-imagen");
-    if (btn) btn.style.display = "block";
 }
 
 
