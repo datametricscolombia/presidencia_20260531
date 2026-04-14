@@ -1,6 +1,6 @@
 {
   "votos": {
-    "Votos por Iván Cepeda": 89,
+    "Votos por Iván Cepeda": 88,
     "Votos por Claudia López": 1,
     "Votos por Santiago Botero": 1,
     "Votos por Abelardo de la Espriella": 21,
@@ -16,7 +16,7 @@
     "Votos en Blanco": 0,
     "Votos Nulos": 0,
     "Votos No Marcados": 0,
-    "Total votos": 154
+    "Total votos": 153
   },
   "index": {
     "01": {
@@ -153,8 +153,7 @@
                     "600010202002",
                     "600010202003",
                     "600010202004",
-                    "600010202005",
-                    "600010202006"
+                    "600010202005"
                   ]
                 }
               }
