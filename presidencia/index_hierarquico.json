@@ -161,6 +161,9 @@
                 "6000102_Puesto_02": {
                   "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/puesto_600010202.json",
                   "mesas": {
+                    "600010202_Mesa_001": {
+                      "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/mesa_600010202001/mesa_600010202001.json"
+                    },
                     "600010202_Mesa_002": {
                       "url": "https://datametricscolombia.github.io/presidencia_20260531/presidencia/departamento_60_Amazonas/municipio_60001/zona_6000102/puesto_600010202/mesa_600010202002/mesa_600010202002.json"
                     },
