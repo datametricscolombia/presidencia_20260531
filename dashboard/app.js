@@ -335,7 +335,7 @@ function renderImagen(url) {
     container.style.display = "block";
     btn.style.display = "block";
 
-    // limpiar eventos previos
+    // limpiar eventos previos (CRÍTICO en WebView)
     btn.replaceWith(btn.cloneNode(true));
     const newBtn = document.getElementById("btn-ver-imagen");
 
@@ -344,12 +344,28 @@ function renderImagen(url) {
 
     newBtn.addEventListener("click", () => {
 
+        // 🔥 Mostrar modal primero (UX)
         modal.style.display = "flex";
-        modalImg.src = url;
+
+        // 🔥 Reset visual
         modalImg.style.transform = "scale(1)";
         scale = 1;
+
+        // 🔥 IMPORTANTE: esperar carga real
+        modalImg.onload = () => {
+            modalImg.style.display = "block";
+        };
+
+        modalImg.onerror = () => {
+            console.error("Error cargando imagen:", url);
+            modal.style.display = "none";
+            alert("No se pudo cargar la imagen");
+        };
+
+        modalImg.src = url;
     });
 
+    // cerrar modal
     cerrar.onclick = () => modal.style.display = "none";
 
     modal.onclick = (e) => {
@@ -358,7 +374,9 @@ function renderImagen(url) {
         }
     };
 
-    // zoom scroll
+    // =========================
+    // ZOOM SCROLL (desktop)
+    // =========================
     modalImg.onwheel = (e) => {
         e.preventDefault();
 
@@ -368,7 +386,9 @@ function renderImagen(url) {
         modalImg.style.transform = `scale(${scale})`;
     };
 
-    // zoom táctil
+    // =========================
+    // ZOOM TÁCTIL (WebView)
+    // =========================
     modalImg.addEventListener("touchmove", (e) => {
 
         if (e.touches.length === 2) {
@@ -394,7 +414,6 @@ function renderImagen(url) {
         initialDistance = null;
     });
 }
-
 
 // ================================
 // LIMPIAR SELECTS
