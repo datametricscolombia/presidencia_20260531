@@ -1,37 +1,12 @@
 const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
-const INDEX_FILE = `${BASE_URL}/index_hierarquico.json`;
+
+const INDEX_FILE = `${BASE_URL}/index.json`;
+const MAP_FILE = `${BASE_URL}/mesa_chunk_map.json`;
 
 let INDEX_DATA = {};
+let MESA_MAP = {};
 const cache = {};
 
-
-function parseZona(zonaKey) {
-    return zonaKey.split("_Zona_").join("");
-}
-
-function parsePuesto(puestoKey) {
-    return puestoKey.split("_Puesto_").join("");
-}
-
-function parseMesa(mesaKey) {
-    return mesaKey.split("_Mesa_").join("");
-}
-
-
-// ================================
-// NORMALIZAR KEYS (NUEVO)
-// ================================
-function extraerCodigoZona(zonaKey) {
-    return zonaKey.split("_")[0] + zonaKey.split("_")[2];
-}
-
-function extraerCodigoPuesto(puestoKey) {
-    return puestoKey.split("_")[0] + puestoKey.split("_")[2];
-}
-
-function extraerCodigoMesa(mesaKey) {
-    return mesaKey.split("_")[0] + mesaKey.split("_")[2];
-}
 
 // ================================
 // LIMPIAR RESULTADOS
@@ -47,32 +22,35 @@ function limpiarResultados() {
     const totalDiv = document.getElementById("total-votos");
     totalDiv.style.display = "none";
     totalDiv.textContent = "";
+}
 
-    document.getElementById("breadcrumb").innerHTML = "";
-
-    }
 
 // ================================
-// CARGAR INDEX
+// CARGAR INDEX + MAPA
 // ================================
 async function cargarIndice() {
 
     try {
 
-        const res = await fetch(INDEX_FILE + "?t=" + Date.now());
+        const [resIndex, resMap] = await Promise.all([
+            fetch(INDEX_FILE + "?t=" + Date.now()),
+            fetch(MAP_FILE + "?t=" + Date.now())
+        ]);
 
-        if (!res.ok) throw new Error("No se pudo cargar el índice");
+        if (!resIndex.ok || !resMap.ok) {
+            throw new Error("Error cargando index o mapa");
+        }
 
-        INDEX_DATA = await res.json();
+        INDEX_DATA = await resIndex.json();
+        MESA_MAP = await resMap.json();
 
         llenarDepartamentos();
 
     } catch (error) {
-
         console.error(error);
-
     }
 }
+
 
 // ================================
 // DEPARTAMENTOS
@@ -83,18 +61,21 @@ function llenarDepartamentos() {
 
     depSelect.innerHTML = '<option value="">Seleccione departamento</option>';
 
-    for (const depKey in INDEX_DATA.departamentos) {
+    const index = INDEX_DATA.index;
 
-        const dep = INDEX_DATA.departamentos[depKey];
+    for (const depKey in index) {
+
+        const dep = index[depKey];
 
         const option = document.createElement("option");
 
         option.value = depKey;
-        option.textContent = `${depKey} - ${dep.nombre}`;
+        option.textContent = dep.nombre;
 
         depSelect.appendChild(option);
     }
 }
+
 
 // ================================
 // MUNICIPIOS
@@ -107,18 +88,21 @@ function llenarMunicipios(depKey) {
 
     if (!depKey) return;
 
-    const dep = INDEX_DATA.departamentos[depKey];
+    const municipios = INDEX_DATA.index[depKey].municipios;
 
-    for (const munKey in dep.municipios) {
+    for (const munKey in municipios) {
+
+        const mun = municipios[munKey];
 
         const option = document.createElement("option");
 
         option.value = munKey;
-        option.textContent = `${munKey} - ${dep.municipios[munKey].nombre}`;
+        option.textContent = mun.nombre;
 
         munSelect.appendChild(option);
     }
 }
+
 
 // ================================
 // ZONAS
@@ -131,18 +115,21 @@ function llenarZonas(depKey, munKey) {
 
     if (!depKey || !munKey) return;
 
-    const mun = INDEX_DATA.departamentos[depKey].municipios[munKey];
+    const zonas = INDEX_DATA.index[depKey].municipios[munKey].zonas;
 
-    for (const zonaKey in mun.zonas) {
+    for (const zonaKey in zonas) {
+
+        const zona = zonas[zonaKey];
 
         const option = document.createElement("option");
 
         option.value = zonaKey;
-        option.textContent = zonaKey;
+        option.textContent = zona.nombre;
 
         zonaSelect.appendChild(option);
     }
 }
+
 
 // ================================
 // PUESTOS
@@ -155,18 +142,24 @@ function llenarPuestos(depKey, munKey, zonaKey) {
 
     if (!depKey || !munKey || !zonaKey) return;
 
-    const zona = INDEX_DATA.departamentos[depKey].municipios[munKey].zonas[zonaKey];
+    const puestos = INDEX_DATA.index[depKey]
+        .municipios[munKey]
+        .zonas[zonaKey]
+        .puestos;
 
-    for (const puestoKey in zona.puestos) {
+    for (const puestoKey in puestos) {
+
+        const puesto = puestos[puestoKey];
 
         const option = document.createElement("option");
 
         option.value = puestoKey;
-        option.textContent = puestoKey;
+        option.textContent = puesto.nombre;
 
         puestoSelect.appendChild(option);
     }
 }
+
 
 // ================================
 // MESAS
@@ -179,52 +172,39 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 
     if (!depKey || !munKey || !zonaKey || !puestoKey) return;
 
-    const puesto = INDEX_DATA.departamentos[depKey]
+    const mesas = INDEX_DATA.index[depKey]
         .municipios[munKey]
         .zonas[zonaKey]
-        .puestos[puestoKey];
+        .puestos[puestoKey]
+        .mesas;
 
-    for (const mesaKey in puesto.mesas) {
+    mesas.forEach(m => {
 
         const option = document.createElement("option");
 
-        option.value = mesaKey;
-        option.textContent = mesaKey;
+        option.value = m.mesa_id;
+        option.textContent = m.mesa_id;
 
         mesaSelect.appendChild(option);
+    });
+}
+
+
+// ================================
+// CARGAR MESA (DESDE CHUNK)
+// ================================
+async function cargarMesa(mesa_id) {
+
+    if (!mesa_id) return;
+
+    const chunk_id = MESA_MAP[mesa_id];
+
+    if (!chunk_id) {
+        console.error("Mesa no encontrada en mapa");
+        return;
     }
-}
 
-// ================================
-// CONSTRUIR URL
-// ================================
-function construirUrlMesa(mesaKey) {
-
-    const dep = document.getElementById("dep-select").value;
-    const mun = document.getElementById("mun-select").value;
-    const zonaKey = document.getElementById("zona-select").value;
-    const puestoKey = document.getElementById("puesto-select").value;
-
-    const depNombre = INDEX_DATA.departamentos[dep].nombre;
-
-    // 🔥 Transformaciones correctas
-    const zona = parseZona(zonaKey);        // 60001_Zona_02 → 6000102
-    const puesto = parsePuesto(puestoKey);  // 60001_Puesto_0202 → 600010202
-    const mesa = parseMesa(mesaKey);        // 60001_Mesa_0202027 → 600010202027
-
-    return `${BASE_URL}/departamento_${dep}_${depNombre}/municipio_${mun}/zona_${zona}/puesto_${puesto}/mesa_${mesa}/mesa_${mesa}.json`;
-}
-// ================================
-// CARGAR MESA
-// ================================
-async function cargarMesa(url) {
-
-    if (!url) return;
-
-    const table = document.getElementById("results-table");
-    const tbody = table.querySelector("tbody");
-
-    tbody.innerHTML = "";
+    const url = `${BASE_URL}/mesas_${chunk_id}.json`;
 
     let data;
 
@@ -237,7 +217,7 @@ async function cargarMesa(url) {
         const res = await fetch(url + "?t=" + Date.now());
 
         if (!res.ok) {
-            console.error("Error cargando JSON:", url);
+            console.error("Error cargando chunk:", url);
             return;
         }
 
@@ -246,12 +226,33 @@ async function cargarMesa(url) {
         cache[url] = data;
     }
 
+    const mesa = data.mesas.find(m => m.mesa_id === mesa_id);
+
+    if (!mesa) {
+        console.error("Mesa no encontrada en chunk");
+        return;
+    }
+
+    renderResultados(mesa.votos);
+}
+
+
+// ================================
+// RENDER RESULTADOS
+// ================================
+function renderResultados(data) {
+
+    const table = document.getElementById("results-table");
+    const tbody = table.querySelector("tbody");
+
+    tbody.innerHTML = "";
+
     const partidos = Object.keys(data).filter(k =>
-    k.startsWith("Votos por") ||
-    k === "Votos en Blanco" ||
-    k === "Votos Nulos" ||
-    k === "Votos No Marcados"
-);
+        k.startsWith("Votos por") ||
+        k === "Votos en Blanco" ||
+        k === "Votos Nulos" ||
+        k === "Votos No Marcados"
+    );
 
     partidos.forEach((p) => {
 
@@ -274,27 +275,12 @@ async function cargarMesa(url) {
 
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
-
-    if (data.url_image) {
-
-        const btn = document.createElement("a");
-
-        btn.href = data.url_image;
-        btn.target = "_blank";
-        btn.className = "btn-image";
-        btn.textContent = "Ver fotografía E-14";
-
-        totalDiv.appendChild(document.createElement("br"));
-        totalDiv.appendChild(btn);
-    }
-
-    const breadcrumb = document.getElementById("breadcrumb");
-
-    const path = url.replace(BASE_URL + "/", "").split("/");
-
-    breadcrumb.innerHTML = path.map(p => `<span>${p}</span>`).join(" > ");
 }
 
+
+// ================================
+// LIMPIAR SELECTS EN CASCADA
+// ================================
 function limpiarSelectsDesde(nivel) {
 
     const orden = [
@@ -322,6 +308,8 @@ function limpiarSelectsDesde(nivel) {
         select.innerHTML = `<option value="">${textos[orden[i]]}</option>`;
     }
 }
+
+
 // ================================
 // EVENTOS
 // ================================
@@ -364,11 +352,9 @@ document.getElementById("puesto-select").addEventListener("change", (e) => {
 
 document.getElementById("mesa-select").addEventListener("change", (e) => {
 
-    const mesa = e.target.value;
+    const mesa_id = e.target.value;
 
-    const url = construirUrlMesa(mesa);
-
-    cargarMesa(url);
+    cargarMesa(mesa_id);
 });
 
 
