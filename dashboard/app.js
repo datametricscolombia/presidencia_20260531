@@ -1,7 +1,7 @@
 const BASE_URL = "https://datametricscolombia.github.io/presidencia_20260531/presidencia";
 
-const INDEX_FILE = `${BASE_URL}/index.json`;
-const MAP_FILE = `${BASE_URL}/mesa_chunk_map.json`;
+const INDEX_FILE = `${BASE_URL}/pais.json`;
+const MESA_MAP_FILE = `${BASE_URL}/mesa_chunk_map.json`;
 
 let INDEX_DATA = {};
 let MESA_MAP = {};
@@ -22,33 +22,53 @@ function limpiarResultados() {
     const totalDiv = document.getElementById("total-votos");
     totalDiv.style.display = "none";
     totalDiv.textContent = "";
+
+    const breadcrumb = document.getElementById("breadcrumb");
+    if (breadcrumb) breadcrumb.innerHTML = "";
 }
 
 
 // ================================
-// CARGAR INDEX + MAPA
+// CARGA INICIAL
+// ================================
+async function init() {
+
+    try {
+        await cargarMapaMesas();
+        await cargarIndice();
+    } catch (error) {
+        console.error("Error inicializando app:", error);
+    }
+}
+
+
+// ================================
+// CARGAR MAPA MESA → CHUNK
+// ================================
+async function cargarMapaMesas() {
+
+    const res = await fetch(MESA_MAP_FILE + "?t=" + Date.now());
+
+    if (!res.ok) throw new Error("No se pudo cargar mesa_chunk_map");
+
+    MESA_MAP = await res.json();
+}
+
+
+// ================================
+// CARGAR ÍNDICE (DESDE pais.json)
 // ================================
 async function cargarIndice() {
 
-    try {
+    const res = await fetch(INDEX_FILE + "?t=" + Date.now());
 
-        const [resIndex, resMap] = await Promise.all([
-            fetch(INDEX_FILE + "?t=" + Date.now()),
-            fetch(MAP_FILE + "?t=" + Date.now())
-        ]);
+    if (!res.ok) throw new Error("No se pudo cargar pais.json");
 
-        if (!resIndex.ok || !resMap.ok) {
-            throw new Error("Error cargando index o mapa");
-        }
+    const data = await res.json();
 
-        INDEX_DATA = await resIndex.json();
-        MESA_MAP = await resMap.json();
+    INDEX_DATA = data.index || {};
 
-        llenarDepartamentos();
-
-    } catch (error) {
-        console.error(error);
-    }
+    llenarDepartamentos();
 }
 
 
@@ -61,11 +81,9 @@ function llenarDepartamentos() {
 
     depSelect.innerHTML = '<option value="">Seleccione departamento</option>';
 
-    const index = INDEX_DATA.index;
+    for (const depKey in INDEX_DATA) {
 
-    for (const depKey in index) {
-
-        const dep = index[depKey];
+        const dep = INDEX_DATA[depKey];
 
         const option = document.createElement("option");
 
@@ -88,11 +106,11 @@ function llenarMunicipios(depKey) {
 
     if (!depKey) return;
 
-    const municipios = INDEX_DATA.index[depKey].municipios;
+    const dep = INDEX_DATA[depKey];
 
-    for (const munKey in municipios) {
+    for (const munKey in dep.municipios) {
 
-        const mun = municipios[munKey];
+        const mun = dep.municipios[munKey];
 
         const option = document.createElement("option");
 
@@ -115,11 +133,11 @@ function llenarZonas(depKey, munKey) {
 
     if (!depKey || !munKey) return;
 
-    const zonas = INDEX_DATA.index[depKey].municipios[munKey].zonas;
+    const mun = INDEX_DATA[depKey].municipios[munKey];
 
-    for (const zonaKey in zonas) {
+    for (const zonaKey in mun.zonas) {
 
-        const zona = zonas[zonaKey];
+        const zona = mun.zonas[zonaKey];
 
         const option = document.createElement("option");
 
@@ -142,14 +160,11 @@ function llenarPuestos(depKey, munKey, zonaKey) {
 
     if (!depKey || !munKey || !zonaKey) return;
 
-    const puestos = INDEX_DATA.index[depKey]
-        .municipios[munKey]
-        .zonas[zonaKey]
-        .puestos;
+    const zona = INDEX_DATA[depKey].municipios[munKey].zonas[zonaKey];
 
-    for (const puestoKey in puestos) {
+    for (const puestoKey in zona.puestos) {
 
-        const puesto = puestos[puestoKey];
+        const puesto = zona.puestos[puestoKey];
 
         const option = document.createElement("option");
 
@@ -172,21 +187,36 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 
     if (!depKey || !munKey || !zonaKey || !puestoKey) return;
 
-    const mesas = INDEX_DATA.index[depKey]
+    const puesto = INDEX_DATA[depKey]
         .municipios[munKey]
         .zonas[zonaKey]
-        .puestos[puestoKey]
-        .mesas;
+        .puestos[puestoKey];
 
-    mesas.forEach(m => {
+    puesto.mesas.forEach((mesa_id) => {
 
         const option = document.createElement("option");
 
-        option.value = m.mesa_id;
-        option.textContent = m.mesa_id;
+        option.value = mesa_id;
+        option.textContent = mesa_id;
 
         mesaSelect.appendChild(option);
     });
+}
+
+
+// ================================
+// CONSTRUIR URL CHUNK
+// ================================
+function construirUrlMesa(mesa_id) {
+
+    const chunk_id = MESA_MAP[mesa_id];
+
+    if (!chunk_id) {
+        console.error("Mesa no encontrada en mapa:", mesa_id);
+        return null;
+    }
+
+    return `${BASE_URL}/mesas_${chunk_id}.json`;
 }
 
 
@@ -195,75 +225,73 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 // ================================
 async function cargarMesa(mesa_id) {
 
-    if (!mesa_id) return;
+    limpiarResultados();
 
-    const chunk_id = MESA_MAP[mesa_id];
+    const url = construirUrlMesa(mesa_id);
 
-    if (!chunk_id) {
-        console.error("Mesa no encontrada en mapa");
-        return;
-    }
-
-    const url = `${BASE_URL}/mesas_${chunk_id}.json`;
+    if (!url) return;
 
     let data;
 
-    if (cache[url]) {
+    try {
 
-        data = cache[url];
+        if (cache[url]) {
 
-    } else {
+            data = cache[url];
 
-        const res = await fetch(url + "?t=" + Date.now());
+        } else {
 
-        if (!res.ok) {
-            console.error("Error cargando chunk:", url);
+            const res = await fetch(url + "?t=" + Date.now());
+
+            if (!res.ok) throw new Error("Error cargando chunk");
+
+            data = await res.json();
+
+            cache[url] = data;
+        }
+
+        const mesa = data.mesas.find(m => m.mesa_id === mesa_id);
+
+        if (!mesa) {
+            console.error("Mesa no encontrada en chunk");
             return;
         }
 
-        data = await res.json();
+        renderTabla(mesa.votos);
 
-        cache[url] = data;
+    } catch (error) {
+        console.error(error);
     }
-
-    const mesa = data.mesas.find(m => m.mesa_id === mesa_id);
-
-    if (!mesa) {
-        console.error("Mesa no encontrada en chunk");
-        return;
-    }
-
-    renderResultados(mesa.votos);
 }
 
 
 // ================================
-// RENDER RESULTADOS
+// RENDER TABLA
 // ================================
-function renderResultados(data) {
+function renderTabla(votos) {
 
     const table = document.getElementById("results-table");
     const tbody = table.querySelector("tbody");
 
     tbody.innerHTML = "";
 
-    const partidos = Object.keys(data).filter(k =>
+    const keys = Object.keys(votos).filter(k =>
         k.startsWith("Votos por") ||
         k === "Votos en Blanco" ||
         k === "Votos Nulos" ||
         k === "Votos No Marcados"
     );
 
-    partidos.forEach((p) => {
+    keys.forEach((k) => {
 
-        const nombre = p.replace("Votos por ", "");
-        const votos = parseInt(data[p]);
+        const nombre = k.replace("Votos por ", "");
+        const valor = votos[k];
 
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
             <td>${nombre}</td>
-            <td>${votos}</td>
+            <td>${valor}</td>
         `;
 
         tbody.appendChild(tr);
@@ -274,7 +302,7 @@ function renderResultados(data) {
     const totalDiv = document.getElementById("total-votos");
 
     totalDiv.style.display = "block";
-    totalDiv.textContent = `Total votos en esta mesa: ${data["Total votos"]}`;
+    totalDiv.textContent = `Total votos en esta mesa: ${votos["Total votos"]}`;
 }
 
 
@@ -354,9 +382,11 @@ document.getElementById("mesa-select").addEventListener("change", (e) => {
 
     const mesa_id = e.target.value;
 
+    if (!mesa_id) return;
+
     cargarMesa(mesa_id);
 });
 
 
 // ================================
-cargarIndice();
+init();
