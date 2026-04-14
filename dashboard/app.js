@@ -26,17 +26,23 @@ function limpiarResultados() {
     const breadcrumb = document.getElementById("breadcrumb");
     if (breadcrumb) breadcrumb.innerHTML = "";
 
-    // limpiar imagen
+    // imagen
     const container = document.getElementById("imagen-container");
     const img = document.getElementById("imagen-mesa");
     const btn = document.getElementById("btn-ver-imagen");
 
     if (container) container.style.display = "none";
+
     if (img) {
         img.src = "";
         img.style.display = "none";
     }
-    if (btn) btn.style.display = "inline-block";
+
+    if (btn) btn.style.display = "block";
+
+    // cerrar modal si estaba abierto
+    const modal = document.getElementById("modal-imagen");
+    if (modal) modal.style.display = "none";
 }
 
 
@@ -98,7 +104,6 @@ function llenarDepartamentos() {
         const dep = INDEX_DATA[depKey];
 
         const option = document.createElement("option");
-
         option.value = depKey;
         option.textContent = dep.nombre;
 
@@ -125,7 +130,6 @@ function llenarMunicipios(depKey) {
         const mun = dep.municipios[munKey];
 
         const option = document.createElement("option");
-
         option.value = munKey;
         option.textContent = mun.nombre;
 
@@ -152,7 +156,6 @@ function llenarZonas(depKey, munKey) {
         const zona = mun.zonas[zonaKey];
 
         const option = document.createElement("option");
-
         option.value = zonaKey;
         option.textContent = zona.nombre;
 
@@ -179,7 +182,6 @@ function llenarPuestos(depKey, munKey, zonaKey) {
         const puesto = zona.puestos[puestoKey];
 
         const option = document.createElement("option");
-
         option.value = puestoKey;
         option.textContent = puesto.nombre;
 
@@ -207,7 +209,6 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
     puesto.mesas.forEach((mesa_id) => {
 
         const option = document.createElement("option");
-
         option.value = mesa_id;
         option.textContent = mesa_id;
 
@@ -240,7 +241,6 @@ async function cargarMesa(mesa_id) {
     limpiarResultados();
 
     const url = construirUrlMesa(mesa_id);
-
     if (!url) return;
 
     let data;
@@ -248,9 +248,7 @@ async function cargarMesa(mesa_id) {
     try {
 
         if (cache[url]) {
-
             data = cache[url];
-
         } else {
 
             const res = await fetch(url + "?t=" + Date.now());
@@ -258,7 +256,6 @@ async function cargarMesa(mesa_id) {
             if (!res.ok) throw new Error("Error cargando chunk");
 
             data = await res.json();
-
             cache[url] = data;
         }
 
@@ -313,20 +310,22 @@ function renderTabla(votos) {
     table.style.display = "table";
 
     const totalDiv = document.getElementById("total-votos");
-
     totalDiv.style.display = "block";
     totalDiv.textContent = `Total votos en esta mesa: ${votos["Total votos"]}`;
 }
 
 
 // ================================
-// IMAGEN E-14
+// IMAGEN + MODAL + ZOOM
 // ================================
 function renderImagen(url) {
 
     const container = document.getElementById("imagen-container");
-    const img = document.getElementById("imagen-mesa");
     const btn = document.getElementById("btn-ver-imagen");
+
+    const modal = document.getElementById("modal-imagen");
+    const modalImg = document.getElementById("modal-img");
+    const cerrar = document.getElementById("cerrar-modal");
 
     if (!url) {
         container.style.display = "none";
@@ -334,15 +333,66 @@ function renderImagen(url) {
     }
 
     container.style.display = "block";
+    btn.style.display = "block";
 
-    img.style.display = "none";
-    btn.style.display = "inline-block";
+    // limpiar eventos previos
+    btn.replaceWith(btn.cloneNode(true));
+    const newBtn = document.getElementById("btn-ver-imagen");
 
-    btn.onclick = () => {
-        img.src = url;
-        img.style.display = "block";
-        btn.style.display = "none";
+    let scale = 1;
+    let initialDistance = null;
+
+    newBtn.addEventListener("click", () => {
+
+        modal.style.display = "flex";
+        modalImg.src = url;
+        modalImg.style.transform = "scale(1)";
+        scale = 1;
+    });
+
+    cerrar.onclick = () => modal.style.display = "none";
+
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
     };
+
+    // zoom scroll
+    modalImg.onwheel = (e) => {
+        e.preventDefault();
+
+        scale += e.deltaY * -0.001;
+        scale = Math.min(Math.max(1, scale), 5);
+
+        modalImg.style.transform = `scale(${scale})`;
+    };
+
+    // zoom táctil
+    modalImg.addEventListener("touchmove", (e) => {
+
+        if (e.touches.length === 2) {
+
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (!initialDistance) {
+                initialDistance = distance;
+            } else {
+
+                let zoom = distance / initialDistance;
+                zoom = Math.min(Math.max(1, zoom), 5);
+
+                modalImg.style.transform = `scale(${zoom})`;
+            }
+        }
+    });
+
+    modalImg.addEventListener("touchend", () => {
+        initialDistance = null;
+    });
 }
 
 
@@ -382,7 +432,6 @@ function limpiarSelectsDesde(nivel) {
 // EVENTOS
 // ================================
 document.getElementById("dep-select").addEventListener("change", (e) => {
-
     limpiarSelectsDesde("dep-select");
     llenarMunicipios(e.target.value);
     limpiarResultados();

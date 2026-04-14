@@ -112,3 +112,37 @@ header h2 {
 .btn-image:hover{
   background:#154360;
 }
+
+/* =========================
+   MODAL VISOR
+========================= */
+
+.modal-imagen{
+  display:none;
+  position:fixed;
+  z-index:9999;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(0,0,0,0.9);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-contenido{
+  max-width:95%;
+  max-height:95%;
+  transition: transform 0.2s ease;
+  cursor: zoom-in;
+}
+
+#cerrar-modal{
+  position:absolute;
+  top:20px;
+  right:30px;
+  color:white;
+  font-size:35px;
+  font-weight:bold;
+  cursor:pointer;
+}
