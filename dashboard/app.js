@@ -323,10 +323,6 @@ function renderImagen(url) {
     const container = document.getElementById("imagen-container");
     const btn = document.getElementById("btn-ver-imagen");
 
-    const modal = document.getElementById("modal-imagen");
-    const modalImg = document.getElementById("modal-img");
-    const cerrar = document.getElementById("cerrar-modal");
-
     if (!url) {
         container.style.display = "none";
         return;
@@ -339,93 +335,12 @@ function renderImagen(url) {
     btn.replaceWith(btn.cloneNode(true));
     const newBtn = document.getElementById("btn-ver-imagen");
 
-    let scale = 1;
-    let initialDistance = null;
-
+    // comportamiento tipo código antiguo (100% confiable)
     newBtn.addEventListener("click", () => {
-
-        modal.style.display = "flex";
-        modalImg.style.display = "none";
-        modalImg.style.transform = "scale(1)";
-        scale = 1;
-
-        // limpiar handlers anteriores
-        modalImg.onload = null;
-        modalImg.onerror = null;
-
-        // 🔥 método robusto
-        modalImg.onload = () => {
-
-            // validar que realmente cargó
-            if (modalImg.complete && modalImg.naturalWidth > 0) {
-                modalImg.style.display = "block";
-            } else {
-                fallback();
-            }
-        };
-
-        modalImg.onerror = fallback;
-
-        modalImg.src = url;
-
-        // 🔥 fallback si Google bloquea
-        function fallback() {
-            modal.style.display = "none";
-
-            // abrir como hacía el código antiguo (100% confiable)
-            window.open(url, "_blank");
-        }
-    });
-
-    // cerrar modal
-    cerrar.onclick = () => modal.style.display = "none";
-
-    modal.onclick = (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    };
-
-    // =========================
-    // ZOOM SCROLL
-    // =========================
-    modalImg.onwheel = (e) => {
-        e.preventDefault();
-
-        scale += e.deltaY * -0.001;
-        scale = Math.min(Math.max(1, scale), 5);
-
-        modalImg.style.transform = `scale(${scale})`;
-    };
-
-    // =========================
-    // ZOOM TÁCTIL
-    // =========================
-    modalImg.addEventListener("touchmove", (e) => {
-
-        if (e.touches.length === 2) {
-
-            const dx = e.touches[0].clientX - e.touches[1].clientX;
-            const dy = e.touches[0].clientY - e.touches[1].clientY;
-
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (!initialDistance) {
-                initialDistance = distance;
-            } else {
-
-                let zoom = distance / initialDistance;
-                zoom = Math.min(Math.max(1, zoom), 5);
-
-                modalImg.style.transform = `scale(${zoom})`;
-            }
-        }
-    });
-
-    modalImg.addEventListener("touchend", () => {
-        initialDistance = null;
+        window.open(url, "_blank");
     });
 }
+
 
 // ================================
 // LIMPIAR SELECTS
