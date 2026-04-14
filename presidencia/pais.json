@@ -1,0 +1,166 @@
+{
+  "votos": {
+    "Votos por Iván Cepeda": 88,
+    "Votos por Claudia López": 1,
+    "Votos por Santiago Botero": 1,
+    "Votos por Abelardo de la Espriella": 21,
+    "Votos por Mauricio Lizcano": 2,
+    "Votos por Miguel Uribe Londoño": 1,
+    "Votos por Sondra Macollins": 1,
+    "Votos por Roy Barreras": 1,
+    "Votos por Carlos Caicedo": 10,
+    "Votos por Gustavo Matamoros": 0,
+    "Votos por Paloma Valencia": 23,
+    "Votos por Sergio Fajardo": 3,
+    "Votos por Luis Gilberto Murillo": 1,
+    "Votos en Blanco": 0,
+    "Votos Nulos": 0,
+    "Votos No Marcados": 0,
+    "Total votos": 153
+  },
+  "index": {
+    "01": {
+      "nombre": "01. Antioquia",
+      "municipios": {
+        "01001": {
+          "nombre": "01001. MEDELLIN",
+          "zonas": {
+            "0100101": {
+              "nombre": "Zona 01",
+              "puestos": {
+                "010010101": {
+                  "nombre": "Puesto 01",
+                  "mesas": [
+                    "010010101001"
+                  ]
+                }
+              }
+            },
+            "0100110": {
+              "nombre": "Zona 10",
+              "puestos": {
+                "010011006": {
+                  "nombre": "Puesto 06",
+                  "mesas": [
+                    "010011006005"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "03": {
+      "nombre": "03. Atlántico",
+      "municipios": {
+        "03043": {
+          "nombre": "03043. SABANAGRANDE",
+          "zonas": {
+            "0304302": {
+              "nombre": "Zona 02",
+              "puestos": {
+                "030430203": {
+                  "nombre": "Puesto 03",
+                  "mesas": [
+                    "030430203001",
+                    "030430203002",
+                    "030430203003"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "05": {
+      "nombre": "05. Bolívar",
+      "municipios": {
+        "05127": {
+          "nombre": "05127. ZAMBRANO",
+          "zonas": {
+            "0512799": {
+              "nombre": "Zona 99",
+              "puestos": {
+                "051279902": {
+                  "nombre": "Puesto 02",
+                  "mesas": [
+                    "051279902001"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "16": {
+      "nombre": "16. Bogotá",
+      "municipios": {
+        "16001": {
+          "nombre": "16001. BOGOTA",
+          "zonas": {
+            "1600113": {
+              "nombre": "Zona 13",
+              "puestos": {
+                "160011310": {
+                  "nombre": "Puesto 10",
+                  "mesas": [
+                    "160011310006"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "40": {
+      "nombre": "40. Arauca",
+      "municipios": {
+        "40001": {
+          "nombre": "40001. ARAUCA",
+          "zonas": {
+            "4000101": {
+              "nombre": "Zona 01",
+              "puestos": {
+                "400010101": {
+                  "nombre": "Puesto 01",
+                  "mesas": [
+                    "400010101001"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "60": {
+      "nombre": "60. Amazonas",
+      "municipios": {
+        "60001": {
+          "nombre": "60001. LETICIA",
+          "zonas": {
+            "6000102": {
+              "nombre": "Zona 02",
+              "puestos": {
+                "600010202": {
+                  "nombre": "Puesto 02",
+                  "mesas": [
+                    "600010202001",
+                    "600010202002",
+                    "600010202003",
+                    "600010202004",
+                    "600010202005"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
