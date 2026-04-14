@@ -25,11 +25,23 @@ function limpiarResultados() {
 
     const breadcrumb = document.getElementById("breadcrumb");
     if (breadcrumb) breadcrumb.innerHTML = "";
+
+    // limpiar imagen
+    const container = document.getElementById("imagen-container");
+    const img = document.getElementById("imagen-mesa");
+    const btn = document.getElementById("btn-ver-imagen");
+
+    if (container) container.style.display = "none";
+    if (img) {
+        img.src = "";
+        img.style.display = "none";
+    }
+    if (btn) btn.style.display = "inline-block";
 }
 
 
 // ================================
-// CARGA INICIAL
+// INIT
 // ================================
 async function init() {
 
@@ -43,7 +55,7 @@ async function init() {
 
 
 // ================================
-// CARGAR MAPA MESA → CHUNK
+// MAPA MESA → CHUNK
 // ================================
 async function cargarMapaMesas() {
 
@@ -56,7 +68,7 @@ async function cargarMapaMesas() {
 
 
 // ================================
-// CARGAR ÍNDICE (DESDE pais.json)
+// CARGAR ÍNDICE
 // ================================
 async function cargarIndice() {
 
@@ -205,7 +217,7 @@ function llenarMesas(depKey, munKey, zonaKey, puestoKey) {
 
 
 // ================================
-// CONSTRUIR URL CHUNK
+// URL CHUNK
 // ================================
 function construirUrlMesa(mesa_id) {
 
@@ -221,7 +233,7 @@ function construirUrlMesa(mesa_id) {
 
 
 // ================================
-// CARGAR MESA (DESDE CHUNK)
+// CARGAR MESA
 // ================================
 async function cargarMesa(mesa_id) {
 
@@ -258,6 +270,7 @@ async function cargarMesa(mesa_id) {
         }
 
         renderTabla(mesa.votos);
+        renderImagen(mesa.url_image);
 
     } catch (error) {
         console.error(error);
@@ -266,7 +279,7 @@ async function cargarMesa(mesa_id) {
 
 
 // ================================
-// RENDER TABLA
+// TABLA RESULTADOS
 // ================================
 function renderTabla(votos) {
 
@@ -307,7 +320,34 @@ function renderTabla(votos) {
 
 
 // ================================
-// LIMPIAR SELECTS EN CASCADA
+// IMAGEN E-14
+// ================================
+function renderImagen(url) {
+
+    const container = document.getElementById("imagen-container");
+    const img = document.getElementById("imagen-mesa");
+    const btn = document.getElementById("btn-ver-imagen");
+
+    if (!url) {
+        container.style.display = "none";
+        return;
+    }
+
+    container.style.display = "block";
+
+    img.style.display = "none";
+    btn.style.display = "inline-block";
+
+    btn.onclick = () => {
+        img.src = url;
+        img.style.display = "block";
+        btn.style.display = "none";
+    };
+}
+
+
+// ================================
+// LIMPIAR SELECTS
 // ================================
 function limpiarSelectsDesde(nivel) {
 
